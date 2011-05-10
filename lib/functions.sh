@@ -11,6 +11,7 @@ GREENB="\e[1;32m"
 # internal error exit status
 INTERNAL=3
 
+declare -i VERBOSE=0
 declare -i ret=0
 
 function FATAL
@@ -46,4 +47,24 @@ function GREP
     grep -Eq $options "$pattern" $file
     return $?
 }
+
+while getopts ":vh" optval ; do
+case $optval in
+    "h")
+        cat <<HELP
+Usage: $(basename $0) [options]
+-h  Display this help
+-v  Be verbose
+HELP
+        exit 0
+        ;;
+    "v")
+        VERBOSE=1
+        ;;
+    *)
+        echo "Unknown parameter: '$OPTARG'"
+        exit 1
+        ;;
+esac
+done
 
