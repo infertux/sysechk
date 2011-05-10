@@ -26,17 +26,17 @@ echo "Purging old reports..."
 rm -f $REPORTS/*
 
 echo "Running tests..."
-find $TESTS -name \*.sh -print0 | xargs -0 -n1 -P0 ./lib/run_test.sh
+find $TESTS -name "*.sh" -print0 | xargs -0 -n1 -P0 ./lib/run_test.sh
 xcode=$?
 
 [ $xcode -ne 123 ] && (echo "WTF:$xcode" ; exit 1)
 
-tests=$(ls $TESTS | wc -w)
+fail=$(find $REPORTS -name "*.txt" -not -empty | wc -l)
 reports=$(ls $REPORTS | wc -w)
-echo "$reports tests taken of $tests in $SECONDS seconds"
+echo "$reports tests taken in $SECONDS seconds"
 
 if [ $xcode -eq 123 ] ; then
-    echo -e "${REDB}Problems detected:${DEFAULT}"
+    echo -e "${REDB}$fail problems detected:${DEFAULT}"
     grep '' $REPORTS/*.txt | sed -r 's@.*/(.*)\.txt:(.*)$@\1\t\2@' >&2
 fi
 

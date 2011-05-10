@@ -27,21 +27,23 @@ function WARNING
 function FILE
 {
     while [ $1 ] ; do
-        [ -r "$1" ] || FATAL "Unable to read file '$1'."
+        file=$1
+        [ -r "$file" ] || FATAL "Unable to read file '$file'."
         shift
     done
 }
 
 function GREP
 {
-    [ $# -ne 2 -a $# -ne 3 ] && exit $INTERNAL
+    [ $# -lt 1 -o $# -gt 3 ] && exit $INTERNAL
 
+    [ $# -eq 1 ] && file=- <&1
     [ $# -eq 3 ] && (options=$1 ; shift)
 
     pattern=$1
     file=$2
 
-    grep -Eq $options "$pattern" "$file"
+    grep -Eq $options "$pattern" $file
     return $?
 }
 
