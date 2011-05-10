@@ -62,8 +62,6 @@ while read line ; do
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-. \$(dirname \$0)/../lib/functions.sh
-
 EOF
     fi
 
@@ -73,8 +71,10 @@ EOF
         else 
             cat >> "$file" <<EOF
 
+. \$(dirname \$0)/../lib/functions.sh
+
 echo "This test is not implemented yet." >&2
-exit $ret
+exit \$ret
 
 EOF
         fi
