@@ -29,10 +29,10 @@ If you know what you're doing, press 'y' [N/y]: " sure
 
 cd $(dirname $0)
 
-echo "Transforming $CCE..."
+echo "Transforming $CCE…"
 xsltproc -o $OUT $XSLT $CCE
 
-echo "Creating test files in $DIR..."
+echo "Creating test files in $DIR…"
 [ -d "$DIR" ] || mkdir "$DIR"
 file=
 while read line ; do

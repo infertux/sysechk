@@ -1,6 +1,6 @@
 #!/bin/bash
 
-[ $UID -eq 0 ] && (echo "N0 R00T!" ; kill -SIGKILL $$)
+# Declare constants
 
 DEFAULT="\e[0m"
 RED="\e[31m"
@@ -8,15 +8,25 @@ REDB="\e[1;31m"
 GREEN="\e[32m"
 GREENB="\e[1;32m"
 
-# internal error exit status
-INTERNAL=3
+FATAL=2 # exit code for fatal errors
+INTERNAL=3 # exit code for internal errors
+
+# Guess the current OS
+
+[ -e /etc/redhat-release ] && REDHAT=1
+[ -e /etc/debian_version ] && DEBIAN=1
+
+# Init some flags
 
 declare -i VERBOSE=0
 declare -i ret=0
 
+# Declare functions
+
 function FATAL
 {
-    echo -e "$REDB$1$DEFAULT"
+    echo -e "${REDB}FATAL ERROR: ${1}${DEFAULT}" >&2
+    exit $FATAL
 }
 
 function WARNING
@@ -47,6 +57,15 @@ function GREP
     grep -Eq $options "$pattern" $file
     return $?
 }
+
+# Check if everything is okay
+
+[ $UID -eq 0 ] && FATAL "N0 R00T!"
+
+[ $(ls -l $0 | cut -d' ' -f1) != "-rwx------." ] && \
+    FATAL "Run tools/fix_perms.sh script first"
+
+# Handle options
 
 while getopts ":vh" optval ; do
 case $optval in

@@ -8,6 +8,7 @@ xcode=$?
 chmod 400 $out.tmp
 mv $out.tmp $out.txt
 nb=$(ls $REPORTS/*.txt | wc -w)
-echo -ne "$nb tests taken (last: $([ $xcode -ne 0 ] && echo KO || echo OK))\r"
+[ $xcode -ne 0 ] && last='KO' || last='OK'
+echo -ne "$nb tests so far (last: $last)…\r"
 exit $xcode
 

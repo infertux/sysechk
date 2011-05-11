@@ -3,6 +3,7 @@
 cd "$(dirname $0)/.."
 
 chmod 700 run_tests.sh
+chmod 600 README
 chmod -R 700 lib
 chmod 700 reports
 chmod -R 700 tests

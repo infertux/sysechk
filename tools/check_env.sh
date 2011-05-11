@@ -26,6 +26,8 @@ function chk_fn()
 }
 
 chk_fn rm mv find xargs grep sed
+[ $REDHAT ] && chk_fn yum
+[ $DEBIAN ] && chk_fn apt-get
 
 echo "Done."
 

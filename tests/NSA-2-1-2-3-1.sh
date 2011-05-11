@@ -25,8 +25,15 @@
 
 . $(dirname $0)/../lib/functions.sh
 
-list=$(yum -q check-update)
-[ $? -ne 0 ] && WARNING "Update your packages via 'yum update'"
+if [ $REDHAT ] ; then
+    list=$(yum -q check-update)
+    cmd="yum update"
+elif [ $DEBIAN ] ; then
+    list=$(apt-get -qq update) # TEST ME!
+    cmd="apt-get upgrade"
+fi
+
+[ "$list" ] && WARNING "Update your packages via '$cmd'"
 
 [ $VERBOSE -ne 0 ] && echo -e "List of available updates:$list"
 
