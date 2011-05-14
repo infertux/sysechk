@@ -65,8 +65,8 @@ while read line ; do
 EOF
     fi
 
-    if [ -n "$file" ] ; then # start of the file
-        if [ -n "$line" ] ; then
+    if [ "$file" ] ; then # start of the file
+        if [ "$line" ] ; then
             echo "$line" >> "$file"
         else 
             cat >> "$file" <<EOF

@@ -25,9 +25,9 @@
 
 . $(dirname $0)/../lib/functions.sh
 
-FILE /etc/bashrc
+[ $REDHAT ] && FILE /etc/bashrc || FILE /etc/bash.bashrc
 
-GREP 'umask 077' /etc/bashrc && WARNING "Add '$pattern' to $file"
+GREP 'umask 077' $file && WARNING "Add '$pattern' to $file"
 
 exit $ret
 

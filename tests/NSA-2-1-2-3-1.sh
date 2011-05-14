@@ -29,8 +29,13 @@ if [ $REDHAT ] ; then
     list=$(yum -q check-update)
     cmd="yum update"
 elif [ $DEBIAN ] ; then
-    list=$(apt-get -qq update) # TEST ME!
+    #list=$(apt-cache ???) # don't found a way without being root so far
+    WARNING "Unable to detect if your system is up-to-date," \
+    "please run 'apt-get update && apt-get upgrade'"
     cmd="apt-get upgrade"
+else
+    WARNING "Unable to detect if your system is up-to-date," \
+    "please check manually"
 fi
 
 [ "$list" ] && WARNING "Update your packages via '$cmd'"

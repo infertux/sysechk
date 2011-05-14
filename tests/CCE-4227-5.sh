@@ -25,6 +25,8 @@
 
 . $(dirname $0)/../lib/functions.sh
 
+INSTALLED csh || exit 0
+
 FILE /etc/csh.cshrc /etc/csh.login
 
 GREP 'umask 077' /etc/csh.cshrc && WARNING "Add '$pattern' to $file"

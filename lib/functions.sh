@@ -29,17 +29,25 @@ function FATAL
     exit $FATAL
 }
 
+function ABORT
+{
+    echo -e "${REDB}FATAL ERROR: ${1}\nTest $(basename 0) aborted${DEFAULT}"
+    exit $FATAL
+}
+
 function WARNING
 {
     ret=1
-    echo -e "$RED$1$DEFAULT"
+    for str ; do
+        echo -e "${RED}${str}${DEFAULT}"
+    done
 }
 
 function FILE
 {
-    while [ $1 ] ; do
-        file=$1
-        [ -r "$file" ] || FATAL "Unable to read file '$file'."
+    for f ; do
+        file=$f
+        [ -r "$file" ] || ABORT "Unable to read file '$file'."
         shift
     done
 }
@@ -58,12 +66,19 @@ function GREP
     return $?
 }
 
+function INSTALLED
+{
+    [ $# -ne 1 ] && exit $INTERNAL
+
+    which "$1" 2>/dev/null
+    return $?
+}
+
 # Check if everything is okay
 
 [ $UID -eq 0 ] && FATAL "N0 R00T!"
 
-[ $(ls -l $0 | cut -d' ' -f1) != "-rwx------." ] && \
-    FATAL "Run tools/fix_perms.sh script first"
+[ "$(find $0 -perm 700)" ] || FATAL "Run tools/fix_perms.sh script first"
 
 # Handle options
 
