@@ -25,8 +25,11 @@
 
 . $(dirname $0)/../lib/functions.sh
 
-mount | GREP 'on /var/log ' || \
-    WARNING "Create separate partition or logical volume for /var/log"
+dir=/var/log
+[ -d $dir ] || exit 0
+
+mount | GREP "on $dir " || \
+    WARNING "Create separate partition or logical volume for $dir"
 
 exit $ret
 

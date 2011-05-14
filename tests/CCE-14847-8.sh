@@ -27,7 +27,7 @@
 
 FILE /etc/profile
 
-GREP 'umask 077' /etc/profile || \
+GREP "umask\s+077" /etc/profile || \
     WARNING "Add 'umask 077' to $file"
 
 exit $ret

@@ -29,8 +29,10 @@ FILE /etc/passwd
 
 cat $file | cut -d: -f6 | GREP "^/home/" && \
     (mount | GREP 'on /home ' || \
-        WARNING "Since you are using local home directories," \
-        "create separate partition or logical volume for /home")
+        WARNING \
+"Since you are using local home directories, create separate partition or" \
+"logical volume for /home"
+    )
 
 exit $ret
 

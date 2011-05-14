@@ -19,8 +19,8 @@
 export TESTS=tests
 export REPORTS=reports
 
+. $(dirname $0)/lib/functions.sh
 cd $(dirname $0)
-. ./lib/functions.sh
 
 echo "Purging old reports…"
 rm -f $REPORTS/*

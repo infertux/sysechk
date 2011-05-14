@@ -76,7 +76,10 @@ function INSTALLED
 
 # Check if everything is okay
 
-[ $UID -eq 0 ] && FATAL "N0 R00T!"
+[ $UID -eq 0 ] && FATAL "
+This software does NOT need root privileges, therefore execute it under a
+regular user. If you can not login as a normal user (!), you can try:
+cd sysechk && chown -R nobody: * && su -c ./run_tests.sh nobody"
 
 [ "$(find $0 -perm 700)" ] || FATAL "Run tools/fix_perms.sh script first"
 

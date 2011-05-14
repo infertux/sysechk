@@ -25,8 +25,8 @@
 
 . $(dirname $0)/../lib/functions.sh
 
-GREP 'UMASK           077' /etc/login.defs || \
-    WARNING "Add 'UMASK           077' to $file"
+GREP "UMASK\s+077" /etc/login.defs || \
+    WARNING "Add 'UMASK 077' to $file"
 
 exit $ret
 
