@@ -70,7 +70,7 @@ function INSTALLED
 {
     [ $# -ne 1 ] && exit $INTERNAL
 
-    which "$1" 2>/dev/null
+    which "$1" >/dev/null 2>&1
     return $?
 }
 
