@@ -8,8 +8,9 @@ REDB="\e[1;31m"
 GREEN="\e[32m"
 GREENB="\e[1;32m"
 
-FATAL=2 # exit code for fatal errors
-INTERNAL=3 # exit code for internal errors
+E_NORMAL=1 # exit code for "normal" errors
+E_FATAL=2 # exit code for fatal errors
+E_INTERNAL=3 # exit code for internal errors
 
 # Guess the current OS
 
@@ -26,18 +27,18 @@ declare -i ret=0
 function FATAL
 {
     echo -e "${REDB}FATAL ERROR: ${1}${DEFAULT}" >&2
-    exit $FATAL
+    exit $E_FATAL
 }
 
 function ABORT
 {
     echo -e "${REDB}FATAL ERROR: ${1}\nTest $(basename 0) aborted${DEFAULT}"
-    exit $FATAL
+    exit $E_FATAL
 }
 
 function WARNING
 {
-    ret=1
+    ret=$E_NORMAL
     for str ; do
         echo -e "${RED}${str}${DEFAULT}"
     done
@@ -54,7 +55,7 @@ function FILE
 
 function GREP
 {
-    [ $# -lt 1 -o $# -gt 3 ] && exit $INTERNAL
+    [ $# -lt 1 -o $# -gt 3 ] && exit $E_INTERNAL
 
     [ $# -eq 1 ] && file=- <&1
     [ $# -eq 3 ] && (options=$1 ; shift)
@@ -68,7 +69,7 @@ function GREP
 
 function INSTALLED
 {
-    [ $# -ne 1 ] && exit $INTERNAL
+    [ $# -ne 1 ] && exit $E_INTERNAL
 
     which "$1" >/dev/null 2>&1
     return $?

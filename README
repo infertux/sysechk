@@ -65,7 +65,7 @@ concerns.                                                  \       /
 |_| _> (_| (_| (/_
 ------------_|----
 
-# Clone the last version of SSC.
+# Clone the latest version of SSC.
 git clone https://github.com/infertux/sysechk.git
 cd sysechk
 
