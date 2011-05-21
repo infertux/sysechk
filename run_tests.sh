@@ -36,11 +36,11 @@ fail=$(find $REPORTS -name "*.txt" -not -empty | wc -l)
 reports=$(ls $REPORTS | wc -w)
 echo "$reports tests taken in $SECONDS seconds"
 
-if [ $xcode -eq 0 ] ; then
+if [ $xcode -eq 0 ]; then
 
     echo -e "${GREENB}All tests passed, your system is quite secure!${DEFAULT}"
 
-elif [ $xcode -eq 123 ] ; then
+elif [ $xcode -eq 123 ]; then
 
     echo -e "${REDB}$fail problems detected:${DEFAULT}"
     grep '' $REPORTS/*.txt | sed -r 's@.*/(.*)\.txt:(.*)$@\1\t\2@' >&2

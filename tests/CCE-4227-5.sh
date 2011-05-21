@@ -30,8 +30,10 @@ INSTALLED csh || exit 0
 FILE /etc/csh.cshrc /etc/csh.login
 
 GREP 'umask 077' /etc/csh.cshrc && WARNING "Add '$pattern' to $file"
-GREP 'umask' /etc/csh.login && (GREP -v 'umask 077' /etc/csh.login || \
-    WARNING "umask is not set to 077 in $file")
+GREP 'umask' /etc/csh.login && {
+    GREP -v 'umask 077' /etc/csh.login || \
+    WARNING "umask is not set to 077 in $file"
+}
 
 exit $ret
 

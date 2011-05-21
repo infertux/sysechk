@@ -37,7 +37,7 @@ echo "Creating test files in $DIR…"
 file=
 while read line ; do
 
-    if [ $(echo "$line" | grep -c '^# CCE-ID:') -eq 1 ] ; then
+    if [ $(echo "$line" | grep -c '^# CCE-ID:') -eq 1 ]; then
         id=$(echo $line | awk '{print $3}')
         file="$DIR/$id.sh"
         echo "New file: $file"
@@ -65,8 +65,8 @@ while read line ; do
 EOF
     fi
 
-    if [ "$file" ] ; then # start of the file
-        if [ "$line" ] ; then
+    if [ "$file" ]; then # start of the file
+        if [ "$line" ]; then
             echo "$line" >> "$file"
         else 
             cat >> "$file" <<EOF

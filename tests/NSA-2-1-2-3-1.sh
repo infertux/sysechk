@@ -25,10 +25,10 @@
 
 . $(dirname $0)/../lib/functions.sh
 
-if [ $REDHAT ] ; then
+if [ $REDHAT ]; then
     list=$(yum -q check-update)
     cmd="yum update"
-elif [ $DEBIAN ] ; then
+elif [ $DEBIAN ]; then
     #list=$(apt-cache ???) # don't found a way without being root so far
     cmd="apt-get upgrade"
     WARNING \

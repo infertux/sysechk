@@ -18,7 +18,7 @@
 
 function chk_fn()
 {
-    while [ $1 ] ; do
+    while [ $1 ]; do
         [ $(which "$1" 2>/dev/null) ] || \
             echo "Command '$1' not found in 'PATH=$PATH'" >&2
         shift
