@@ -2,25 +2,31 @@
 
 # Declare constants
 
-DEFAULT="\e[0m"
-RED="\e[31m"
-REDB="\e[1;31m"
-GREEN="\e[32m"
-GREENB="\e[1;32m"
+declare -r DEFAULT="\e[0m"
+declare -r RED="\e[31m"
+declare -r REDB="\e[1;31m"
+declare -r GREEN="\e[32m"
+declare -r GREENB="\e[1;32m"
+declare -r YELLOW="\e[33m"
+declare -r YELLOWB="\e[1;33m"
 
-E_NORMAL=1 # exit code for "normal" errors
-E_FATAL=2 # exit code for fatal errors
-E_INTERNAL=3 # exit code for internal errors
+declare -ir E_NORMAL=1 # exit code for "normal" errors
+declare -ir E_FATAL=2 # exit code for fatal errors
+declare -ir E_INTERNAL=3 # exit code for internal errors
+
+declare -rx LOCK_FILE=.lock
 
 # Guess the current OS
 
-[ -e /etc/redhat-release ] && REDHAT=1
-[ -e /etc/debian_version ] && DEBIAN=1
+[ -e /etc/redhat-release ] && declare -ir REDHAT=1
+[ -e /etc/debian_version ] && declare -ir DEBIAN=1
 
 # Init some flags
 
-declare -i VERBOSE=0
 declare -i ret=0
+
+# Disable CTRL+C
+trap '' SIGINT
 
 # Declare functions
 
@@ -32,7 +38,7 @@ function FATAL
 
 function ABORT
 {
-    echo -e "${REDB}FATAL ERROR: ${1}\nTest $(basename 0) aborted${DEFAULT}"
+    echo -e "${REDB}FATAL ERROR: ${1}\nTest $(basename 0) aborted${DEFAULT}" >&2
     exit $E_FATAL
 }
 
@@ -64,16 +70,39 @@ function GREP
     file=$2
 
     grep -Eq $options "$pattern" $file
-    return $?
+    return
 }
 
 function INSTALLED
 {
     [ $# -ne 1 ] && exit $E_INTERNAL
 
-    which "$1" >/dev/null 2>&1
-    return $?
+    which "$1" &>/dev/null
+    return
 }
+
+function SUDO
+{
+    [ $SKIP_ROOT ] && return 1
+
+    cmd="$@"
+
+    (
+        flock -x 200
+        echo -en "Command ${YELLOW}'${cmd}'${DEFAULT} needs root privileges, [e]xecute or [s]kip [s]? " >&2
+        read -u 2 choice
+        [ -z "$choice" ] && choice=s
+
+        case $choice in
+            e) sudo -- $cmd ;;
+            s|*) ;;
+        esac
+    ) 200>$LOCK_FILE
+
+    return 1
+
+}
+
 
 # Check if everything is okay
 
@@ -86,18 +115,22 @@ cd sysechk && chown -R nobody: * && su -c ./run_tests.sh nobody"
 
 # Handle options
 
-while getopts ":vh" optval ; do
+while getopts ":hsv" optval ; do
 case $optval in
     "h")
         cat <<HELP
 Usage: $(basename $0) [options]
--h  Display this help
--v  Be verbose
+  -h  Display this help
+  -s  Skip all tests where root privileges are required
+  -v  Be verbose
 HELP
         exit 0
         ;;
+    "s")
+        declare -irx SKIP_ROOT=1
+        ;;
     "v")
-        VERBOSE=1
+        declare -irx VERBOSE=1
         ;;
     *)
         echo "Unknown parameter: '$OPTARG'"

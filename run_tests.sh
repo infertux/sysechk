@@ -44,6 +44,14 @@ elif [ $xcode -eq 123 ]; then
 
     echo -e "${REDB}$fail problems detected:${DEFAULT}"
     grep '' $REPORTS/*.txt | sed -r 's@.*/(.*)\.txt:(.*)$@\1\t\2@' >&2
+    # alternative display
+    #for file in $REPORTS/*.txt ; do
+    #    [ -s "$file" ] || continue
+    #    echo -ne "$file\t" | sed -r 's@.*/(.*)\.txt@\1@' >&2
+    #    (( width = $(tput cols) - 20 ))
+    #    fold -w $width "$file" | head -1 >&2
+    #    fold -w $width "$file" | tail -n +2 | sed 's/^/\t\t/' >&2
+    #done
 
 fi
 

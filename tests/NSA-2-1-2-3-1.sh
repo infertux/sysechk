@@ -39,9 +39,10 @@ else
 "Unable to detect if your system is up-to-date, please check manually"
 fi
 
-[ "$list" ] && WARNING "Update your packages via '$cmd'"
-
-[ $VERBOSE -ne 0 ] && echo -e "List of available updates:$list"
+[ "$list" ] && {
+    WARNING "Update your packages via '$cmd'"
+    [ "$VERBOSE" ] && echo -e "List of available updates:$list"
+}
 
 exit $ret
 
