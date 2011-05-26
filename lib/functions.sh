@@ -2,6 +2,7 @@
 
 # Declare constants
 
+# colors
 declare -r DEFAULT="\e[0m"
 declare -r RED="\e[31m"
 declare -r REDB="\e[1;31m"
@@ -10,10 +11,12 @@ declare -r GREENB="\e[1;32m"
 declare -r YELLOW="\e[33m"
 declare -r YELLOWB="\e[1;33m"
 
-declare -ir E_NORMAL=1 # exit code for "normal" errors
-declare -ir E_FATAL=2 # exit code for fatal errors
-declare -ir E_INTERNAL=3 # exit code for internal errors
+# errors
+declare -ir E_NORMAL=1      # exit code for "normal" errors
+declare -ir E_FATAL=2       # exit code for fatal errors
+declare -ir E_INTERNAL=3    # exit code for internal errors
 
+# misc
 declare -rx LOCK_FILE=.lock
 
 # Guess the current OS
@@ -83,7 +86,7 @@ function INSTALLED
 
 function SUDO
 {
-    [ $SKIP_ROOT ] && return 1
+    [ "$SKIP_ROOT" ] && return $E_NORMAL
 
     cmd="$@"
 
@@ -99,7 +102,7 @@ function SUDO
         esac
     ) 200>$LOCK_FILE
 
-    return 1
+    return $E_NORMAL
 
 }
 
