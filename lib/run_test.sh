@@ -15,7 +15,7 @@ mv $out.tmp $out.txt
 nb=$(ls $REPORTS/*.txt | wc -w)
 [ $xcode -ne 0 ] && last='KO' || last='OK'
 # FIXME: run the two lines above in the flock (avoid useless computation)
-flock -x -n $LOCK_FILE -c "echo -ne \"$nb tests so far (last: $last)…\r\""
+flock -x -n $LOCK_FILE -c "echo -n -e \"$nb tests so far (last: $last)…\r\""
 
 exit $xcode
 

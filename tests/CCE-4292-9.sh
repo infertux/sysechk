@@ -29,7 +29,7 @@ if [ $REDHAT ]; then
     chkconfig auditd || WARNING \
     "Enable the auditd service with 'chkconfig auditd on'"
 elif [ $DEBIAN ]; then
-    [ "$(ls /etc/rc?.d/S??auditd)" ] || WARNING \
+    [ "$(ls /etc/rc?.d/S??auditd 2>/dev/null)" ] || WARNING \
     "Enable the auditd service with 'update-rc.d auditd enable'"
 else
     WARNING "Please ensure that the auditd service is enabled"

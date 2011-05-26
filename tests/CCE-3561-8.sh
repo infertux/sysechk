@@ -25,8 +25,10 @@
 
 . $(dirname $0)/../lib/functions.sh
 
-[ $(sysctl -n net.ipv4.ip_forward) -ne 0 ] && WARNING \
-"Is this system going to be used as a firewall or gateway to pass IP traffic between different networks? If not, add 'net.ipv4.ip_forward = 0' to /etc/sysctl.conf"
+[ $(/sbin/sysctl -n net.ipv4.ip_forward) -ne 0 ] && WARNING \
+"Is this system going to be used as a firewall or gateway to pass IP traffic" \
+"between different networks? If not, add 'net.ipv4.ip_forward = 0' to" \
+"/etc/sysctl.conf"
 
 exit $ret
 

@@ -35,7 +35,11 @@ trap '' SIGINT
 
 function FATAL
 {
-    echo -e "${REDB}FATAL ERROR: ${1}${DEFAULT}" >&2
+    echo -ne "${REDB}FATAL ERROR:" >&2
+    for str ; do
+        echo -n " $str" >&2
+    done
+    echo -e "$DEFAULT" >&2
     exit $E_FATAL
 }
 
@@ -48,9 +52,11 @@ function ABORT
 function WARNING
 {
     ret=$E_NORMAL
+    echo -ne "$RED"
     for str ; do
-        echo -e "${RED}${str}${DEFAULT}"
+        echo -n "$str "
     done
+    echo -e "$DEFAULT"
 }
 
 function FILE
@@ -92,7 +98,8 @@ function SUDO
 
     (
         flock -x 200
-        echo -en "Command ${YELLOW}'${cmd}'${DEFAULT} needs root privileges, [e]xecute or [s]kip [s]? " >&2
+        echo -en "Command ${YELLOW}'${cmd}'${DEFAULT} needs root privileges," \
+        "[e]xecute or [s]kip [s]? " >&2
         read -u 2 choice
         [ -z "$choice" ] && choice=s
 
@@ -109,10 +116,10 @@ function SUDO
 
 # Check if everything is okay
 
-[ $UID -eq 0 ] && FATAL "
-This software does NOT need root privileges, therefore execute it under a
-regular user. If you can not login as a normal user (!), you can try:
-cd sysechk && chown -R nobody: * && su -c ./run_tests.sh nobody"
+[ $UID -eq 0 ] && FATAL \
+"This software does NOT need root privileges, therefore execute it under a" \
+"regular user. If you can not login as a normal user (!), you can try:" \
+"cd sysechk && chown -R nobody: * .* && sudo -u nobody ./run_tests.sh"
 
 [ "$(find $0 -perm 700)" ] || FATAL "Run tools/fix_perms.sh script first"
 

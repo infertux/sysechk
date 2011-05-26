@@ -29,14 +29,16 @@ if [ $REDHAT ]; then
     list=$(yum -q check-update)
     cmd="yum update"
 elif [ $DEBIAN ]; then
-    #list=$(apt-cache ???) # don't found a way without being root so far
+    # don't found a way without being root so far
+    SUDO apt-get update
+    list=$(SUDO apt-get --dry-run upgrade)
     cmd="apt-get upgrade"
     WARNING \
-"Unable to detect if your system is up-to-date, please run" \
-"'apt-get update && apt-get upgrade'"
+    "Unable to detect if your system is up-to-date, please run" \
+    "'apt-get update && apt-get upgrade'"
 else
     WARNING \
-"Unable to detect if your system is up-to-date, please check manually"
+    "Unable to detect if your system is up-to-date, please check manually"
 fi
 
 [ "$list" ] && {
