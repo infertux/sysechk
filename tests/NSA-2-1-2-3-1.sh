@@ -30,12 +30,10 @@ if [ $REDHAT ]; then
     cmd="yum update"
 elif [ $DEBIAN ]; then
     # don't found a way without being root so far
-    SUDO apt-get update
-    list=$(SUDO apt-get --dry-run upgrade)
+    SUDO apt-get -qq update
+    list=$(SUDO apt-get -q --dry-run upgrade)
+    list=$(echo "$list" | grep '^Inst' | cut -d' ' -f2-)
     cmd="apt-get upgrade"
-    WARNING \
-    "Unable to detect if your system is up-to-date, please run" \
-    "'apt-get update && apt-get upgrade'"
 else
     WARNING \
     "Unable to detect if your system is up-to-date, please check manually"

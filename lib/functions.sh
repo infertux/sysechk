@@ -92,20 +92,27 @@ function INSTALLED
 
 function SUDO
 {
-    [ "$SKIP_ROOT" ] && return $E_NORMAL
+    [ "$SKIP_ROOT" ] && {
+        echo -e "${YELLOWB}$0 skipped because of '-s' option${DEFAULT}" >&2;
+        return $E_NORMAL;
+    }
 
     cmd="$@"
 
     (
         flock -x 200
-        echo -en "Command ${YELLOW}'${cmd}'${DEFAULT} needs root privileges," \
-        "[e]xecute or [s]kip [s]? " >&2
-        read -u 2 choice
-        [ -z "$choice" ] && choice=s
+        if [ "$EXECUTE_ROOT" ]; then
+            choice=e
+        else
+            echo -en "Command ${YELLOW}'${cmd}'${DEFAULT} needs root " \
+            "privileges, [e]xecute or [s]kip [s]? " >&2
+            read -u 2 choice
+            [ -z "$choice" ] && choice=s
+        fi
 
         case $choice in
             e) sudo -- $cmd ;;
-            s|*) ;;
+            s|*) echo -e "${YELLOWB}$0 skipped${DEFAULT}" >&2 ;;
         esac
     ) 200>$LOCK_FILE
 
@@ -114,30 +121,29 @@ function SUDO
 }
 
 
-# Check if everything is okay
-
-[ $UID -eq 0 ] && FATAL \
-"This software does NOT need root privileges, therefore execute it under a" \
-"regular user. If you can not login as a normal user (!), you can try:" \
-"cd sysechk && chown -R nobody: * .* && sudo -u nobody ./run_tests.sh"
-
-[ "$(find $0 -perm 700)" ] || FATAL "Run tools/fix_perms.sh script first"
-
 # Handle options
 
-while getopts ":hsv" optval ; do
+while getopts ":hsefv" optval ; do
 case $optval in
     "h")
         cat <<HELP
 Usage: $(basename $0) [options]
   -h  Display this help
-  -s  Skip all tests where root privileges are required
+  -s  Skip all tests where root privileges are required (overrides -e)
+  -e  Execute all tests where root privileges are required
+  -f  Force the program to run even with root privileges
   -v  Be verbose
 HELP
         exit 0
         ;;
     "s")
         declare -irx SKIP_ROOT=1
+        ;;
+    "e")
+        declare -irx EXECUTE_ROOT=1
+        ;;
+    "f")
+        declare -irx FORCE_ROOT=1
         ;;
     "v")
         declare -irx VERBOSE=1
@@ -148,4 +154,15 @@ HELP
         ;;
 esac
 done
+
+
+# Check if everything is okay
+
+[[ $UID -eq 0 && -z "$FORCE_ROOT" ]] && FATAL \
+"This software does NOT need root privileges, therefore execute it under a" \
+"regular user. If you can not login as a normal user (!), you can try:" \
+"cd sysechk && chown -R nobody: * .* && sudo -u nobody ./run_tests.sh." \
+"If you really want to execute it under root, you can give the '-f' option."
+
+[ "$(find $0 -perm 700)" ] || FATAL "Run tools/fix_perms.sh script first"
 
