@@ -25,7 +25,7 @@ function chk_fn()
     done
 }
 
-chk_fn rm mv find xargs grep sed
+chk_fn find grep mv rm sed sudo /sbin/sysctl xargs
 [ $REDHAT ] && chk_fn yum
 [ $DEBIAN ] && chk_fn apt-get
 

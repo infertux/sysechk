@@ -6,7 +6,7 @@ chmod 700 *.sh
 chmod 400 README
 chmod -R 700 lib
 chmod 700 reports
-chmod -R 400 reports/*
+[ "$(ls reports/)" ] && chmod -R 400 reports/*
 chmod -R 700 tests
 chmod 700 tools
 chmod 700 tools/*.sh

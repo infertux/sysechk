@@ -104,14 +104,14 @@ function SUDO
         if [ "$EXECUTE_ROOT" ]; then
             choice=e
         else
-            echo -en "Command ${YELLOW}'${cmd}'${DEFAULT} needs root " \
+            echo -en "Command ${YELLOW}'${cmd}'${DEFAULT} needs root" \
             "privileges, [e]xecute or [s]kip [s]? " >&2
             read -u 2 choice
             [ -z "$choice" ] && choice=s
         fi
 
         case $choice in
-            e) sudo -- $cmd ;;
+            e) [ $UID -eq 0 ] && $cmd || sudo -- $cmd ;;
             s|*) echo -e "${YELLOWB}$0 skipped${DEFAULT}" >&2 ;;
         esac
     ) 200>$LOCK_FILE
