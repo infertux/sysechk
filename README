@@ -30,7 +30,7 @@ Test scripts come from various sources:
   - other common best practices from here and there (custom tests)
     all files named SSC-<ID>.sh (<ID> is an incremental counter)
 
-WARNING: This is a beta release still under active development!
+WARNING: This is a beta release still under development!
 
 
  _

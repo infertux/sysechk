@@ -29,7 +29,7 @@ if [ $REDHAT ]; then
     list=$(yum -q check-update)
     cmd="yum update"
 elif [ $DEBIAN ]; then
-    # don't found a way without being root so far
+    # haven't found a way without being root so far
     SUDO apt-get -qq update
     list=$(SUDO apt-get -q --dry-run upgrade)
     list=$(echo "$list" | grep '^Inst' | cut -d' ' -f2-)
