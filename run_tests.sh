@@ -34,7 +34,8 @@ xcode=$?
 
 fail=$(find $REPORTS -name "*.txt" -not -empty | wc -l)
 reports=$(ls $REPORTS | wc -w)
-echo "$reports tests taken in $SECONDS seconds"
+echo -ne "\x1b\x5b\x32\x4b" # send VT100 escape code ^[[2K to erase the line
+echo "$reports tests taken in $SECONDS seconds."
 
 if [ $xcode -eq 0 ]; then
 
