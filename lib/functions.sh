@@ -23,6 +23,7 @@ declare -rx LOCK_FILE=.lock
 
 [ -e /etc/redhat-release ] && declare -ir REDHAT=1
 [ -e /etc/debian_version ] && declare -ir DEBIAN=1
+[ -e /etc/arch-release ] && declare -ir ARCHLINUX=1
 
 # Init some flags
 

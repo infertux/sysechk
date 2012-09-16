@@ -34,13 +34,17 @@ elif [ $DEBIAN ]; then
     list=$(SUDO apt-get -q --dry-run upgrade)
     list=$(echo "$list" | grep '^Inst' | cut -d' ' -f2-)
     cmd="apt-get upgrade"
+elif [ $ARCHLINUX ]; then
+    SUDO pacman -Sy > /dev/null
+    list=$(pacman -Qu)
+    cmd="pacman -Syu"
 else
     WARNING \
     "Unable to detect if your system is up-to-date, please check manually"
 fi
 
 [ "$list" ] && {
-    WARNING "Update your packages via '$cmd'"
+    WARNING "Update your packages with '$cmd'"
     [ "$VERBOSE" ] && echo -e "List of available updates:$list"
 }
 
