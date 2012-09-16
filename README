@@ -11,8 +11,8 @@
  \_____\/    \_____\/   \/____________/
 
 
-System Security Checker is a bundle of small shell scripts to test your computer
-security (released under AGPL).
+System Security Checker is a bundle of small shell scripts to assess your
+computer security (released under AGPL).
 
 All scripts run in read-only mode and will never modify any file on your system.
 They rather print actions that should be done to improve system security.
