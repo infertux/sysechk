@@ -40,7 +40,7 @@ WARNING: This is a beta release still under development!
 
 The primarily targeted OS are Fedora, CentOS & Debian.
 Other distributions might have fewer tests.
-Since CentOS is fully compatible, RHEL should be too (not tested tough).
+Since CentOS is fully compatible, RHEL should be too (not tested though).
 Tests should be applicable to all variants (Desktop & Server) of each OS.
 
 
@@ -72,11 +72,6 @@ cd sysechk
 # Or if you have already cloned it before, update it.
 cd sysechk
 git pull
-
-# As a security tool, SSC does not feel comfortable when it has too much
-# permissions and because Git does not keep file permissions, you have to run
-# this little script after the git clone/pull.
-./tools/fix_perms.sh
 
 # Now, check if your system has all required tools (sed, grep, awk, etc.).
 # It will print only "Done." if all dependencies are satisfied.

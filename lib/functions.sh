@@ -163,7 +163,5 @@ done
 "This software does NOT need root privileges, therefore execute it under a" \
 "regular user. If you can not login as a normal user (!), you can try:" \
 "cd sysechk && chown -R nobody: * .* && sudo -u nobody ./run_tests.sh." \
-"If you really want to execute it under root, you can give the '-f' option."
-
-[ "$(find $0 -perm 700)" ] || FATAL "Run tools/fix_perms.sh script first"
+"If you really want to execute it under root, you can pass the '-f' option."
 
