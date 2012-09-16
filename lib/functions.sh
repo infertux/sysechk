@@ -8,8 +8,9 @@ SKIP_ROOT=false
 EXECUTE_ROOT=false
 FORCE_ROOT=false
 VERBOSE=false
+EXCLUDE_TESTS=''
 
-while getopts ":hsefv" optval; do
+while getopts ":hsefx:v" optval; do
 case $optval in
     h)
         cat >&2 <<HELP
@@ -18,26 +19,23 @@ Usage: $(basename $0) [options]
   -s  Skip all tests where root privileges are required (overrides -e)
   -e  Execute all tests where root privileges are required
   -f  Force the program to run even with root privileges
+  -x  Test to exclude (can be repeated, e.g. -x CCE-3561-8 -x NSA-2-1-2-3-1)
   -v  Be verbose
 HELP
-        exit 0
-        ;;
+        exit 0 ;;
     s)
-        SKIP_ROOT=true
-        ;;
+        SKIP_ROOT=true ;;
     e)
-        EXECUTE_ROOT=true
-        ;;
+        EXECUTE_ROOT=true ;;
     f)
-        FORCE_ROOT=true
-        ;;
+        FORCE_ROOT=true ;;
+    x)
+        EXCLUDE_TESTS="${EXCLUDE_TESTS} ${OPTARG} " ;;
     v)
-        VERBOSE=true
-        ;;
+        VERBOSE=true ;;
     *)
         echo "Unknown parameter: '$OPTARG'" >&2
-        exit 1
-        ;;
+        exit 1 ;;
 esac
 done
 
@@ -170,6 +168,12 @@ function SUDO
         esac
     ) 200>$LOCK_FILE
 }
+
+current_test=$(echo $0 | sed -r 's#tests/(.*)\.sh#\1#')
+if [[ "$EXCLUDE_TESTS" =~ " $current_test " ]]; then
+    $VERBOSE && echo -e "${YELLOWB}$0 excluded${DEFAULT}" >&2
+    exit 0
+fi
 
 return 0
 
