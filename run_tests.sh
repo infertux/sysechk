@@ -62,3 +62,5 @@ fi
 
 echo "Done."
 
+exit $fail
+

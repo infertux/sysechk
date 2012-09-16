@@ -6,7 +6,7 @@ set -eu
 cd $(dirname $0)
 
 # 1. Run it locally
-./run_tests.sh -fe
+./run_tests.sh -fe || true
 
 # 2. Run it into a chrooted Debian
 CHROOT=$(dirname $0)/chroot
