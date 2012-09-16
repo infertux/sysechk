@@ -25,6 +25,8 @@
 
 . $(dirname $0)/../lib/functions.sh
 
+[ -f /etc/ssh/sshd_config ] || exit 0
+
 SUDO grep -Eq '^PermitEmptyPasswords\s+no\s*$' /etc/ssh/sshd_config || WARNING \
     "Add 'PermitEmptyPasswords no' to /etc/ssh/sshd_config"
 
