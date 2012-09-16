@@ -88,6 +88,28 @@ It will print only "Done." if all dependencies are satisfied.
     ./tests/<test>.sh
     ```
 
+## Flags
+
+You can pass flags to `run_tests.sh` and to individual tests:
+
+```
+$ ./run_tests.sh -h
+Usage: run_tests.sh [options]
+  -h  Display this help
+  -s  Skip all tests where root privileges are required (overrides -e)
+  -e  Execute all tests where root privileges are required
+  -f  Force the program to run even with root privileges
+  -v  Be verbose
+
+$ ./tests/NSA-2-1-2-3-1.sh -h
+Usage: NSA-2-1-2-3-1.sh [options]
+  -h  Display this help
+  -s  Skip all tests where root privileges are required (overrides -e)
+  -e  Execute all tests where root privileges are required
+  -f  Force the program to run even with root privileges
+  -v  Be verbose
+```
+
 
 # Bugs
 
