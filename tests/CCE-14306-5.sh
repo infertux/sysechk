@@ -27,8 +27,8 @@
 
 FILE /etc/fstab
 
-cat $file | awk '{$2=="/dev/shm" && $4!~"nosuid"}' && \
-    WARNING "Add the option ,nosuid in column 4 for /dev/shm in $file"
+[ "$(awk '$2=="/dev/shm" && $4!~"nosuid"' $file)" ] && \
+    WARNING "Add the option 'nosuid' in column 4 for /dev/shm in $file"
 
 exit $ret
 

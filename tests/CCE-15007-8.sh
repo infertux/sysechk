@@ -27,8 +27,8 @@
 
 FILE /etc/fstab
 
-cat $file | awk '{$2=="/dev/shm" && $4!~"nodev"}' && \
-    WARNING "Add the option ,nodev in column 4 for /dev/shm in $file"
+[ "$(awk '$2=="/dev/shm" && $4!~"nodev"' $file)" ] && \
+    WARNING "Add the option 'nodev' in column 4 for /dev/shm in $file"
 
 exit $ret
 

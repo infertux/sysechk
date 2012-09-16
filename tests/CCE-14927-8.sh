@@ -27,8 +27,8 @@
 
 FILE /etc/fstab
 
-cat $file | awk '{$2=="/tmp" && $4!~"noexec"}' && \
-    WARNING "Add the option ,noexec in column 4 for /tmp in $file"
+[ "$(awk '$2=="/tmp" && $4!~"noexec"' $file)" ] && \
+    WARNING "Add the option 'noexec' in column 4 for /tmp in $file"
 
 exit $ret
 

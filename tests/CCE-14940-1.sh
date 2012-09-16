@@ -27,8 +27,8 @@
 
 FILE /etc/fstab
 
-cat $file | awk '{$2=="/tmp" && $4!~"nosuid"}' && \
-    WARNING "Add the option ,nosuid in column 4 for /tmp in $file"
+[ "$(awk '$2=="/tmp" && $4!~"nosuid"' $file)" ] && \
+    WARNING "Add the option 'nosuid' in column 4 for /tmp in $file"
 
 exit $ret
 
