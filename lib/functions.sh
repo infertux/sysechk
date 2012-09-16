@@ -148,7 +148,7 @@ function SUDO
 {
     if $SKIP_ROOT; then
         echo -e "${YELLOWB}$0 skipped because of '-s' option${DEFAULT}" >&2
-        return $E_NORMAL
+        return 0
     fi
 
     cmd="$@"
@@ -165,13 +165,10 @@ function SUDO
         fi
 
         case $choice in
-            e) [ $UID -eq 0 ] && $cmd || sudo -- $cmd ;;
-            s|*) echo -e "${YELLOWB}$0 skipped${DEFAULT}" >&2 ;;
+            e) [ $UID -eq 0 ] && $cmd || sudo -- $cmd ; return ;;
+            s|*) echo -e "${YELLOWB}$0 skipped${DEFAULT}" >&2 ; return 0 ;;
         esac
     ) 200>$LOCK_FILE
-
-    return $E_NORMAL
-
 }
 
 return 0
