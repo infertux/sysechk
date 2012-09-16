@@ -25,27 +25,31 @@
 
 . $(dirname $0)/../lib/functions.sh
 
-if [ $REDHAT ]; then
+case $(DISTRO) in
+redhat)
     list=$(yum -q check-update)
     cmd="yum update"
-elif [ $DEBIAN ]; then
+    ;;
+debian)
     # haven't found a way without being root so far
     SUDO apt-get -qq update
     list=$(SUDO apt-get -q --dry-run upgrade)
     list=$(echo "$list" | grep '^Inst' | cut -d' ' -f2-)
     cmd="apt-get upgrade"
-elif [ $ARCHLINUX ]; then
+    ;;
+archlinux)
     SUDO pacman -Sy > /dev/null
     list=$(pacman -Qu)
     cmd="pacman -Syu"
-else
+    ;;
+*)
     WARNING \
     "Unable to detect if your system is up-to-date, please check manually"
-fi
+esac
 
 [ "$list" ] && {
     WARNING "Update your packages with '$cmd'"
-    [ "$VERBOSE" ] && echo -e "List of available updates:$list"
+    $VERBOSE && echo -e "List of available updates:$list"
 }
 
 exit $ret

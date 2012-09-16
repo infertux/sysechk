@@ -27,8 +27,12 @@ rm -f $REPORTS/*
 
 echo "Running tests…"
 [ $(ls $TESTS | wc -w) -eq 0 ] && FATAL "No test found!"
-find $TESTS -name "*.sh" -print0 | xargs -0 -n1 -P0 ./lib/run_test.sh
+
+# execute all tests in parallel, yeah Bash!
+set +e
+find $TESTS -name "*.sh" -print0 | xargs -0 -n1 -P0 ./lib/run_test.sh "$@"
 xcode=$?
+set -e
 
 [ $xcode -ne 0 -a $xcode -ne 123 ] && FATAL "WTF: $xcode"
 
@@ -39,7 +43,7 @@ echo "$reports tests taken in $SECONDS seconds."
 
 if [ $xcode -eq 0 ]; then
 
-    echo -e "${GREENB}All tests passed, your system is quite secure!${DEFAULT}"
+    echo -e "${GREENB}All tests passed, your system seems quite secure!${DEFAULT}"
 
 elif [ $xcode -eq 123 ]; then
 

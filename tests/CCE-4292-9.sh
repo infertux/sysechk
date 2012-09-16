@@ -25,15 +25,18 @@
 
 . $(dirname $0)/../lib/functions.sh
 
-if [ $REDHAT ]; then
-    chkconfig auditd || WARNING \
+case $(DISTRO) in
+redhat)
+    chkconfig auditd &>/dev/null || WARNING \
     "Enable the auditd service with 'chkconfig auditd on'"
-elif [ $DEBIAN ]; then
-    [ "$(ls /etc/rc?.d/S??auditd 2>/dev/null)" ] || WARNING \
+    ;;
+debian)
+    [ "$(ls /etc/rc?.d/S??auditd &>/dev/null)" ] || WARNING \
     "Enable the auditd service with 'update-rc.d auditd enable'"
-else
+    ;;
+*)
     WARNING "Please ensure that the auditd service is enabled"
-fi
+esac
 
 exit $ret
 

@@ -1,7 +1,54 @@
 #!/bin/bash
 
-# Declare constants
+# Robust scripting
+set -eu
 
+# Handle options
+SKIP_ROOT=false
+EXECUTE_ROOT=false
+FORCE_ROOT=false
+VERBOSE=false
+
+while getopts ":hsefv" optval; do
+case $optval in
+    h)
+        cat >&2 <<HELP
+Usage: $(basename $0) [options]
+  -h  Display this help
+  -s  Skip all tests where root privileges are required (overrides -e)
+  -e  Execute all tests where root privileges are required
+  -f  Force the program to run even with root privileges
+  -v  Be verbose
+HELP
+        exit 0
+        ;;
+    s)
+        SKIP_ROOT=true
+        ;;
+    e)
+        EXECUTE_ROOT=true
+        ;;
+    f)
+        FORCE_ROOT=true
+        ;;
+    v)
+        VERBOSE=true
+        ;;
+    *)
+        echo "Unknown parameter: '$OPTARG'" >&2
+        exit 1
+        ;;
+esac
+done
+
+# Check if everything is okay
+[[ $UID -eq 0 && ! $FORCE_ROOT ]] && FATAL \
+"This software does NOT need root privileges, therefore execute it under a" \
+"regular user. If you can not login as a normal user (!), you can try:" \
+"cd sysechk && chown -R nobody: * .* && sudo -u nobody ./run_tests.sh." \
+"If you really want to execute it under root, you can pass the '-f' option."
+
+# Declare constants
 # colors
 declare -r DEFAULT="\e[0m"
 declare -r RED="\e[31m"
@@ -19,20 +66,27 @@ declare -ir E_INTERNAL=3    # exit code for internal errors
 # misc
 declare -rx LOCK_FILE=.lock
 
-# Guess the current OS
+# Disable CTRL+C
+trap '' INT
 
-[ -e /etc/redhat-release ] && declare -ir REDHAT=1
-[ -e /etc/debian_version ] && declare -ir DEBIAN=1
-[ -e /etc/arch-release ] && declare -ir ARCHLINUX=1
+# Error handler
+term() {
+    echo "Unexpected termination (exit code: $?)"
+    exit $E_INTERNAL
+}
+trap term TERM
 
 # Init some flags
-
 declare -i ret=0
 
-# Disable CTRL+C
-trap '' SIGINT
-
 # Declare functions
+function DISTRO
+{
+    [ -e /etc/redhat-release ] && { echo redhat; return; }
+    [ -e /etc/debian_version ] && { echo debian; return; }
+    [ -e /etc/arch-release ] && { echo archlinux; return; }
+    echo unknown
+}
 
 function FATAL
 {
@@ -73,11 +127,10 @@ function GREP
 {
     [ $# -lt 1 -o $# -gt 3 ] && exit $E_INTERNAL
 
-    [ $# -eq 1 ] && file=- <&1
-    [ $# -eq 3 ] && (options=$1 ; shift)
+    [ $# -eq 3 ] && { options=$1 ; shift; } || options=--
+    [ $# -eq 1 ] && file=- <&1 || file=$2
 
     pattern=$1
-    file=$2
 
     grep -Eq $options "$pattern" $file
     return
@@ -93,16 +146,16 @@ function INSTALLED
 
 function SUDO
 {
-    [ "$SKIP_ROOT" ] && {
-        echo -e "${YELLOWB}$0 skipped because of '-s' option${DEFAULT}" >&2;
-        return $E_NORMAL;
-    }
+    if $SKIP_ROOT; then
+        echo -e "${YELLOWB}$0 skipped because of '-s' option${DEFAULT}" >&2
+        return $E_NORMAL
+    fi
 
     cmd="$@"
 
     (
         flock -x 200
-        if [ "$EXECUTE_ROOT" ]; then
+        if $EXECUTE_ROOT; then
             choice=e
         else
             echo -en "Command ${YELLOW}'${cmd}'${DEFAULT} needs root" \
@@ -121,47 +174,5 @@ function SUDO
 
 }
 
-
-# Handle options
-
-while getopts ":hsefv" optval ; do
-case $optval in
-    "h")
-        cat <<HELP
-Usage: $(basename $0) [options]
-  -h  Display this help
-  -s  Skip all tests where root privileges are required (overrides -e)
-  -e  Execute all tests where root privileges are required
-  -f  Force the program to run even with root privileges
-  -v  Be verbose
-HELP
-        exit 0
-        ;;
-    "s")
-        declare -irx SKIP_ROOT=1
-        ;;
-    "e")
-        declare -irx EXECUTE_ROOT=1
-        ;;
-    "f")
-        declare -irx FORCE_ROOT=1
-        ;;
-    "v")
-        declare -irx VERBOSE=1
-        ;;
-    *)
-        echo "Unknown parameter: '$OPTARG'"
-        exit 1
-        ;;
-esac
-done
-
-
-# Check if everything is okay
-
-[[ $UID -eq 0 && -z "$FORCE_ROOT" ]] && FATAL \
-"This software does NOT need root privileges, therefore execute it under a" \
-"regular user. If you can not login as a normal user (!), you can try:" \
-"cd sysechk && chown -R nobody: * .* && sudo -u nobody ./run_tests.sh." \
-"If you really want to execute it under root, you can pass the '-f' option."
+return 0
 
