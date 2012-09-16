@@ -91,7 +91,7 @@ function DISTRO
 function FATAL
 {
     echo -ne "${REDB}FATAL ERROR:" >&2
-    for str ; do
+    for str; do
         echo -n " $str" >&2
     done
     echo -e "$DEFAULT" >&2
@@ -108,7 +108,7 @@ function WARNING
 {
     ret=$E_NORMAL
     echo -ne "$RED"
-    for str ; do
+    for str; do
         echo -n "$str "
     done
     echo -e "$DEFAULT"
@@ -116,7 +116,7 @@ function WARNING
 
 function FILE
 {
-    for f ; do
+    for f; do
         file=$f
         [ -r "$file" ] || ABORT "Unable to read file '$file'."
         shift

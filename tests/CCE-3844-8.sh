@@ -25,7 +25,10 @@
 
 . $(dirname $0)/../lib/functions.sh
 
-[ $(DISTRO)=redhat ] && FILE /etc/bashrc || FILE /etc/bash.bashrc
+case $(DISTRO) in
+    redhat) FILE /etc/bashrc;;
+    *)      FILE /etc/bash.bashrc;;
+esac
 
 GREP 'umask 077' $file && WARNING "Add '$pattern' to $file"
 

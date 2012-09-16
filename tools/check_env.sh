@@ -16,18 +16,22 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-function chk_fn()
+. $(dirname $0)/../lib/functions.sh
+
+chk_cmd()
 {
-    while [ $1 ]; do
-        [ $(which "$1" 2>/dev/null) ] || \
-            echo "Command '$1' not found in 'PATH=$PATH'" >&2
-        shift
+    for cmd; do
+        command -v $cmd >/dev/null || \
+            WARNING "Command '$cmd' not found in 'PATH=$PATH'" >&2
     done
 }
 
-chk_fn find grep mv rm sed sudo /sbin/sysctl xargs
-[ $REDHAT ] && chk_fn yum
-[ $DEBIAN ] && chk_fn apt-get
+chk_cmd find grep mv rm sed sudo /sbin/sysctl xargs
+case $(DISTRO) in
+    redhat) chk_cmd yum;;
+    debian) chk_cmd apt-get;;
+    archlinux) chk_cmd pacman;;
+esac
 
 echo "Done."
 

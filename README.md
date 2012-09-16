@@ -19,7 +19,7 @@ computer security.
 
 All scripts run in read-only mode and will never modify any file on your system.
 They rather print actions that should be done to improve system security.
-You always have the last word (see [Disclaimer](#disclaimer) bellow).
+You always have the last word (see [Disclaimer](#disclaimer) below).
 
 Test scripts come from various sources:
 
