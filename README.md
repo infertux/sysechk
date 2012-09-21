@@ -101,8 +101,9 @@ Usage: run_tests.sh [options]
   -s  Skip all tests where root privileges are required (overrides -e)
   -e  Execute all tests where root privileges are required
   -f  Force the program to run even with root privileges
-  -x  Test to exclude (can be repeated, e.g. -x CCE-3561-8 -x NSA-2-1-2-3-1)
   -v  Be verbose
+  -x <test>  Test to exclude (can be repeated, e.g. -x CCE-3561-8 -x NSA-2-1-2-3-1)
+  -o <file>  Write the list of failed tests into an output file
 
 $ ./tests/NSA-2-1-2-3-1.sh -h
 Usage: NSA-2-1-2-3-1.sh [options]
@@ -110,8 +111,9 @@ Usage: NSA-2-1-2-3-1.sh [options]
   -s  Skip all tests where root privileges are required (overrides -e)
   -e  Execute all tests where root privileges are required
   -f  Force the program to run even with root privileges
-  -x  Test to exclude (can be repeated, e.g. -x CCE-3561-8 -x NSA-2-1-2-3-1)
   -v  Be verbose
+  -x <test>  Test to exclude (can be repeated, e.g. -x CCE-3561-8 -x NSA-2-1-2-3-1)
+  -o <file>  Write the list of failed tests into an output file
 ```
 
 

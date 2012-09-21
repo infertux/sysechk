@@ -28,8 +28,8 @@ rm -f $REPORTS/*
 echo "Running tests…"
 [ "$(ls -A $TESTS)" ] || FATAL "No tests found!"
 
-# execute all tests in parallel, yeah Bash!
 set +e
+# execute all tests in parallel, yeah Bash!
 find $TESTS -name "*.sh" -print0 | xargs -0 -n1 -P0 ./lib/run_test.sh "$@"
 xcode=$?
 set -e
@@ -59,6 +59,9 @@ elif [ $xcode -eq 123 ]; then
     #done
 
 fi
+
+[ "$OUTPUT_FILE" ] && \
+    find $REPORTS -name "*.txt" -not -empty | sed -r 's@.*/(.*)\.txt$@\1@' > $OUTPUT_FILE
 
 echo "Done."
 

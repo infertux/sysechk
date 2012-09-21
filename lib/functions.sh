@@ -9,8 +9,9 @@ EXECUTE_ROOT=false
 FORCE_ROOT=false
 VERBOSE=false
 EXCLUDE_TESTS=''
+OUTPUT_FILE=''
 
-while getopts ":hsefx:v" optval; do
+while getopts ":hsefx:o:v" optval; do
 case $optval in
     h)
         cat >&2 <<HELP
@@ -19,8 +20,9 @@ Usage: $(basename $0) [options]
   -s  Skip all tests where root privileges are required (overrides -e)
   -e  Execute all tests where root privileges are required
   -f  Force the program to run even with root privileges
-  -x  Test to exclude (can be repeated, e.g. -x CCE-3561-8 -x NSA-2-1-2-3-1)
   -v  Be verbose
+  -x <test>  Test to exclude (can be repeated, e.g. -x CCE-3561-8 -x NSA-2-1-2-3-1)
+  -o <file>  Write the list of failed tests into an output file
 HELP
         exit 0 ;;
     s)
@@ -29,10 +31,12 @@ HELP
         EXECUTE_ROOT=true ;;
     f)
         FORCE_ROOT=true ;;
-    x)
-        EXCLUDE_TESTS="${EXCLUDE_TESTS} ${OPTARG} " ;;
     v)
         VERBOSE=true ;;
+    x)
+        EXCLUDE_TESTS="${EXCLUDE_TESTS} ${OPTARG} " ;;
+    o)
+        OUTPUT_FILE=$OPTARG ;;
     *)
         echo "Unknown parameter: '$OPTARG'" >&2
         exit 1 ;;
