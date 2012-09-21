@@ -29,7 +29,7 @@ echo "
 CCE-14011-1
 CCE-14171-3
 CCE-14777-7
-CCE-3561-8
 CCE-14847-8
-" | diff -B ${CHROOT}/root/list -
+CCE-3561-8
+" | diff -B <(sort ${CHROOT}/root/list) -
 
