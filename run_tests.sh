@@ -26,7 +26,7 @@ echo "Purging old reports…"
 rm -f $REPORTS/*
 
 echo "Running tests…"
-[ $(ls $TESTS | wc -w) -eq 0 ] && FATAL "No test found!"
+[ "$(ls -A $TESTS)" ] || FATAL "No tests found!"
 
 # execute all tests in parallel, yeah Bash!
 set +e
