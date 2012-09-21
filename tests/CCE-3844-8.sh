@@ -30,7 +30,7 @@ case $(DISTRO) in
     *)      FILE /etc/bash.bashrc;;
 esac
 
-GREP 'umask 077' $file && WARNING "Add '$pattern' to $file"
+GREP "^umask\s+077" $file && WARNING "Add '$pattern' to $file"
 
 exit $ret
 

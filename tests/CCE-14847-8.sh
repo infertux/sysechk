@@ -25,8 +25,13 @@
 
 . $(dirname $0)/../lib/functions.sh
 
-GREP "umask\s+077" /etc/profile || \
-    WARNING "Add 'umask 077' to $file"
+case $(DISTRO) in
+    debian) exit 0;;
+    *)      FILE /etc/profile;;
+esac
+
+GREP "^\s*umask\s+077" $file || \
+    WARNING "Add or correct the line 'umask 077' in $file"
 
 exit $ret
 
