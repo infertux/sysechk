@@ -22,5 +22,14 @@ chroot $CHROOT mount -a
 rsync -a --exclude chroot . $CHROOT/root/
 
 # Run it
-echo "cd /root && ./run_tests.sh -fe" | chroot $CHROOT /bin/bash
+echo "cd /root && ./run_tests.sh -fe -o list" | chroot $CHROOT /bin/bash || true
+
+# Assert we have the expected failed tests
+echo "
+CCE-14011-1
+CCE-14171-3
+CCE-14777-7
+CCE-3561-8
+CCE-14847-8
+" | diff -B ${CHROOT}/root/list -
 
