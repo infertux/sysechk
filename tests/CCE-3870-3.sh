@@ -25,6 +25,8 @@
 
 . $(dirname $0)/../lib/functions.sh
 
+[ -d /etc/profile.d ] || exit 0
+
 for file in /etc/profile.d/* ; do
     GREP 'umask' "$file" && {
         GREP 'umask 077' "$file" || \
