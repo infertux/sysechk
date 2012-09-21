@@ -25,8 +25,6 @@
 
 . $(dirname $0)/../lib/functions.sh
 
-FILE /etc/profile
-
 GREP "umask\s+077" /etc/profile || \
     WARNING "Add 'umask 077' to $file"
 

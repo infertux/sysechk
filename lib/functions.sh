@@ -126,7 +126,7 @@ function GREP
     [ $# -lt 1 -o $# -gt 3 ] && exit $E_INTERNAL
 
     [ $# -eq 3 ] && { options=$1 ; shift; } || options=--
-    [ $# -eq 1 ] && file=- <&1 || file=$2
+    [ $# -eq 1 ] && file=- <&1 || { FILE $2; file=$2; }
 
     pattern=$1
 
