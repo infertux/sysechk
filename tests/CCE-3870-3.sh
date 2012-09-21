@@ -25,14 +25,13 @@
 
 . $(dirname $0)/../lib/functions.sh
 
-[ -d /etc/profile.d ] || exit 0
+case $(DISTRO) in
+    debian) FILE /etc/login.defs; umask="UMASK";;
+    *)      FILE /etc/profile;    umask="umask";;
+esac
 
-for file in /etc/profile.d/* ; do
-    GREP 'umask' "$file" && {
-        GREP 'umask 077' "$file" || \
-        WARNING "Add or correct the line 'umask 077' in $file"
-    }
-done
+GREP "^\s*${umask}\s+077" $file || \
+    WARNING "Add or correct the line '$umask 077' in $file"
 
 exit $ret
 
