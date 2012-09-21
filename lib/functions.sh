@@ -102,7 +102,7 @@ function FATAL
 
 function ABORT
 {
-    echo -e "${REDB}FATAL ERROR: ${1}\nTest $(basename 0) aborted${DEFAULT}" >&2
+    echo -e "${REDB}FATAL ERROR: ${1}\nTest $(basename $0) aborted${DEFAULT}" >&2
     exit $E_FATAL
 }
 
