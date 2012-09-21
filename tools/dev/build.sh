@@ -17,7 +17,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-CCE=cce-COMBINED-5.20100926.xml
+CCE=cce-COMBINED-5.xml
 XSLT=extract.xslt
 OUT=cce.xml
 DIR=tmp
@@ -35,7 +35,7 @@ xsltproc -o $OUT $XSLT $CCE
 echo "Creating test files in $DIR…"
 [ -d "$DIR" ] || mkdir "$DIR"
 file=
-while read line ; do
+while read line; do
 
     if [ $(echo "$line" | grep -c '^# CCE-ID:') -eq 1 ]; then
         id=$(echo $line | awk '{print $3}')
@@ -68,7 +68,7 @@ EOF
     if [ "$file" ]; then # start of the file
         if [ "$line" ]; then
             echo "$line" >> "$file"
-        else 
+        else
             cat >> "$file" <<EOF
 
 . \$(dirname \$0)/../lib/functions.sh
