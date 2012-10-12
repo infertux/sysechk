@@ -31,5 +31,6 @@ CCE-14107-7
 CCE-14161-4
 CCE-14777-7
 CCE-4292-9
+CCE-4060-0
 " | diff -B <(sort ${CHROOT}/root/list) -
 
