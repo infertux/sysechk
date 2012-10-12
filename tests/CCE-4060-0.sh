@@ -36,9 +36,8 @@ for pattern in '\\n' "$(uname -n)"; do GREP "$pattern" $file && \
 done
 
 case $(DISTRO) in
+    redhat)    pattern="$(sed -r 's/^([^ ]+)( .*$)/\1/' /etc/redhat-release)";;
     debian)    pattern="Debian";;
-    fedora)    pattern="Fedora";;
-    centos)    pattern="CentOS";;
     archlinux) pattern="Arch Linux";;
     *)         pattern="";;
 esac

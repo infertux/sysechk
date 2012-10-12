@@ -82,6 +82,7 @@ trap term TERM
 declare -i ret=0
 
 # Declare functions
+# Returns the distribution family (i.e. CentOs and Fedora will return 'redhat')
 function DISTRO
 {
     [ -e /etc/redhat-release ] && { echo redhat; return; }
