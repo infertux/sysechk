@@ -175,6 +175,7 @@ function SUDO
 
 current_test=$(echo $0 | sed -r 's#tests/(.*)\.sh#\1#')
 if [[ "$EXCLUDE_TESTS" =~ " $current_test " ]]; then
+    echo EXCLUDED
     $VERBOSE && echo -e "${YELLOWB}$0 excluded${DEFAULT}" >&2
     exit 0
 fi
