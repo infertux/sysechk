@@ -186,6 +186,26 @@ function SUDO
 }
 
 
+################
+# DEPENDENCIES #
+################
+
+chk_cmd()
+{
+    for cmd; do
+        command -v $cmd >/dev/null || \
+            FATAL "Command \`$cmd' not found in 'PATH=$PATH'" >&2
+    done
+}
+
+chk_cmd find grep mv rm sed sudo /sbin/sysctl xargs
+case $(DISTRO) in
+    redhat) chk_cmd yum;;
+    debian) chk_cmd apt-get;;
+    archlinux) chk_cmd pacman;;
+esac
+
+
 ###########
 # OPTIONS #
 ###########

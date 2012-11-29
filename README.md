@@ -71,14 +71,7 @@ not address site-specific configuration concerns.
     git pull
     ```
 
-1. Now, check if your system has all the required tools (sed, grep, awk, etc.).
-It will print only "Done." if all dependencies are satisfied.
-
-    ```
-    ./tools/check_env.sh
-    ```
-
-1. Finally, run all tests (it may take a while).
+1. Finally, run all tests.
 
     ```
     ./sysechk.sh
