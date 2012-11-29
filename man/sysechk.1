@@ -1,0 +1,161 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "SYSECHK" "1" "November 2012" "" ""
+.
+.SH "NAME"
+\fBsysechk\fR \- assess your computer security
+.
+.SH "SYNOPSIS"
+\fBsysechk\fR [OPTION]\.\.\.
+.
+.br
+.
+.SH "DESCRIPTION"
+\fBSystem Security Checker\fR is a bundle of small shell scripts to assess your computer security\.
+.
+.P
+All scripts run in read\-only mode and will never modify any file on your system\. They rather print actions that should be done to improve system security\. You always have the last word (see \fIDISCLAIMER\fR below)\.
+.
+.P
+Test scripts come from various sources:
+.
+.TP
+Common Configuration Enumeration \fIhttps://cce\.mitre\.org/lists/cce_list\.html\fR (CCE)
+files named CCE\-<ID>\.sh (<ID> is the official CCE\'s ID)
+.
+.TP
+Guide to the Secure Configuration of Red Hat Enterprise Linux 5 \fIhttps://www\.nsa\.gov/ia/_files/os/redhat/rhel5\-guide\-i731\.pdf\fR
+files named NSA\-<ID>\.sh (<ID> is the section number in the PDF)
+.
+.TP
+other common best practices from here and there (custom tests)
+files named SSC\-<ID>\.sh (<ID> is an incremental counter)
+.
+.SH "DISCLAIMER"
+Do not attempt to implement any of the recommendations without first testing in a non\-production environment\.
+.
+.P
+This software containing recommended security settings\. It is not meant to replace well\-structured policy or sound judgment\. Furthermore this software does not address site\-specific configuration concerns\.
+.
+.SH "OPTIONS"
+These options control whether output is written to file(s), standard output, or directly to a man pager\.
+.
+.SS "Root related options"
+.
+.TP
+\fB\-s\fR, \fB\-\-skip\-root\fR
+Skip all tests where root privileges are required (overrides \fB\-\-execute\-root\fR)\. Skipped tests will be printed on stderr\. The default behaviour is to ask interactively for each test if the user wants to execute it\. Opposite of \fB\-\-execute\-root\fR\.
+.
+.TP
+\fB\-e\fR, \fB\-\-execute\-root\fR
+Execute all tests where root privileges are required\. Opposite of \fB\-\-skip\-root\fR\.
+.
+.TP
+\fB\-f\fR, \fB\-\-force\-root\fR
+Force the program to run even with root privileges\. Without this flag, \fBsysechk\fR will refuse to run under the root user\.
+.
+.SS "Filter options"
+.
+.TP
+\fB\-x\fR=\fItest\fR, \fB\-\-exclude\fR=\fItest\fR
+Test to exclude\. \fItest\fR is the name of the test file without its extension, e\.g\. CCE\-3561\-8 or NSA\-2\-1\-2\-3\-1\. This option can be repeated to exclude several tests\.
+.
+.TP
+\fB\-o\fR=\fIfile\fR, \fB\-\-output\-file\fR=\fIfile\fR
+If given, the list of failed tests will be outputted into \fIfile\fR\. This can be useful to other scripts\.
+.
+.TP
+\fB\-m\fR=\fIminimal severity\fR, \fB\-\-minimal\-severity\fR=\fIminimal severity\fR
+Minimal severity to report\. Severity levels are \fBtrivial\fR, \fBminor\fR, \fBmajor\fR and \fBcritical\fR\. By default, this is set to \fBtrivial\fR and thus will report all detected problems\.
+.
+.SS "Miscellaneous options"
+.
+.TP
+\fB\-v\fR, \fB\-\-verbose\fR
+Be verbose\. \fBsysechk\fR will output more informational messages\.
+.
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Display a short usage message\.
+.
+.TP
+\fB\-\-version\fR
+Show sysechk version and exit\.
+.
+.SH "EXAMPLES"
+Run \fBsysechk\fR interactively:
+.
+.IP "" 4
+.
+.nf
+
+$ sysechk
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Run \fBsysechk\fR excluding tests which require root privileges:
+.
+.IP "" 4
+.
+.nf
+
+$ sysechk \-\-skip\-root
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Run \fBsysechk\fR excluding the specified two tests:
+.
+.IP "" 4
+.
+.nf
+
+$ sysechk \-x CCE\-3561\-8 \-x NSA\-2\-1\-2\-3\-1
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Run \fBsysechk\fR as \fBroot\fR outputing failing tests into \fBlist\fR:
+.
+.IP "" 4
+.
+.nf
+
+$ sysechk \-f \-e \-o list
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Run \fBsysechk\fR reporting only critical tests failing:
+.
+.IP "" 4
+.
+.nf
+
+$ sysechk \-m critical
+.
+.fi
+.
+.IP "" 0
+.
+.SH "COMPATIBILITY"
+The primarily targeted OS are Fedora, CentOS & Debian\. Other distributions might have fewer tests\. Since CentOS is fully compatible, RHEL should be too (not tested though)\. Tests should be applicable to all variants (Desktop & Server) of each OS\.
+.
+.SH "BUGS"
+\fBsysechk\fR is written in Bash and has no dependencies but the standard utilities which come with most platforms\. Every script does one test but does it well \- UNIX way ;)\.
+.
+.P
+Any issue or improvement should be reported to \fIhttps://github\.com/infertux/sysechk/issues\fR\.
+.
+.SH "COPYRIGHT"
+\fBsysechk\fR is copyright (C) 2011\-2012\. It is distributed under the terms of the AGPLv3 license \fIhttp://www\.gnu\.org/licenses/agpl\.html\fR\.
