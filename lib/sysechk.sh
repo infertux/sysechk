@@ -6,10 +6,10 @@
 
 set -eu
 
-# Disable CTRL+C
+# disable CTRL+C
 trap '' INT
 
-# Error handler
+# error handler
 term() {
     echo "Unexpected termination (exit code: $?)"
     exit
@@ -38,7 +38,7 @@ SEVERITY_COLOR=([ok]=green [trivial]=yellow [minor]=yellow_bold [major]=red [cri
 # default
 declare -i ret=${SEVERITY[ok]}
 
-# misc
+# lock file for flock
 declare -rx LOCK_FILE=.lock
 
 
@@ -46,7 +46,7 @@ declare -rx LOCK_FILE=.lock
 # FUNCTIONS #
 #############
 
-# severity helpers
+## severity helpers
 
 set_exit_code() {
     # keep the most critical code (biggest number) or OK
@@ -63,45 +63,45 @@ set_severity() {
 }
 
 CRITICAL() {
-  set_severity critical $@
+    set_severity critical $@
 }
 
 MAJOR() {
-  set_severity major $@
+    set_severity major $@
 }
 
 MINOR() {
-  set_severity minor $@
+    set_severity minor $@
 }
 
 TRIVIAL() {
-  set_severity trivial $@
+    set_severity trivial $@
 }
 
 
-# colored message helpers
+## colored message helpers
 
-# Handy helper to display a warning message
+# handy helper to display a warning message
 function WARNING
 {
     echo -e "${COLOR[red]}$@${COLOR[default]}"
 }
 
-# Handy helper to display a notice message
+# handy helper to display a notice message
 function NOTICE
 {
     echo -e "${COLOR[yellow]}$@${COLOR[default]}"
 }
 
-# Handy helper to display a success message
+# handy helper to display a success message
 function SUCCESS
 {
     echo -e "${COLOR[green]}$@${COLOR[default]}"
 }
 
-# test helpers
+## test helpers
 
-# Returns the distribution family (i.e. CentOs and Fedora will return 'redhat')
+# returns the distribution family (i.e. CentOs and Fedora will return 'redhat')
 function DISTRO
 {
     [ -e /etc/redhat-release ] && { echo redhat; return; }
@@ -110,21 +110,21 @@ function DISTRO
     echo unknown
 }
 
-# Any fatal error to the program
+# any fatal error to the program
 function FATAL
 {
     echo -e "${COLOR[red_bold]}FATAL ERROR: $@${COLOR[default]}" >&2
     exit $E_FATAL
 }
 
-# Abort a test which cannot complete
+# abort a test which cannot complete
 function ABORT
 {
     echo -e "${COLOR[red_bold]}FATAL ERROR: ${1}\nTest $(basename $0) aborted${COLOR[default]}" >&2
     exit $E_FATAL
 }
 
-# Abort if any given file is not readable
+# abort if any given file is not readable
 function FILE
 {
     for f; do
@@ -134,7 +134,7 @@ function FILE
     done
 }
 
-# Sweet grep wrapper
+# sweet grep wrapper
 function GREP
 {
     [ $# -lt 1 -o $# -gt 3 ] && exit $E_INTERNAL
@@ -148,7 +148,7 @@ function GREP
     return
 }
 
-# Test if a program/command is installed and available
+# test if a program/command is installed and available
 function INSTALLED
 {
     [ $# -ne 1 ] && exit $E_INTERNAL
@@ -157,7 +157,7 @@ function INSTALLED
     return
 }
 
-# Interactive sudo wrapper which handles concurrent calls
+# interactive sudo wrapper which handles concurrent calls
 function SUDO
 {
     if $SKIP_ROOT; then
@@ -190,7 +190,7 @@ function SUDO
 # DEPENDENCIES #
 ################
 
-chk_cmd()
+check_command()
 {
     for cmd; do
         command -v $cmd >/dev/null || \
@@ -198,11 +198,11 @@ chk_cmd()
     done
 }
 
-chk_cmd find grep mv rm sed /sbin/sysctl xargs
+check_command find grep mv rm sed /sbin/sysctl xargs
 case $(DISTRO) in
-    redhat) chk_cmd yum;;
-    debian) chk_cmd apt-get;;
-    archlinux) chk_cmd pacman;;
+    redhat) check_command yum;;
+    debian) check_command apt-get;;
+    archlinux) check_command pacman;;
 esac
 
 
