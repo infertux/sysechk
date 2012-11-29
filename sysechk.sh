@@ -43,7 +43,7 @@ if [ $fail -eq 0 ]; then
     SUCCESS "All tests passed, your system seems quite secure!"
 else
     WARNING "$fail problems detected:"
-    grep '' $REPORTS/*.txt | sed -r 's@.*/(.*)\.txt:(.*)$@\1\t\2@' >&2
+    grep '' $REPORTS/*.txt | sed -r 's@.*/(.*)\.txt:(.*)$@\1 \t\2@' >&2
 fi
 
 # create the output file if requested
