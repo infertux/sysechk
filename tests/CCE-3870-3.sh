@@ -23,14 +23,14 @@
 # Parameters:
 # Technical-mechanisms:
 
-. $(dirname $0)/../lib/functions.sh
+. $(dirname $0)/../lib/sysechk.sh
 
 [ -d /etc/profile.d ] || exit 0
 
 for file in $(find /etc/profile.d/ -type f); do
     GREP "^\s*umask\s+" "$file" && {
         GREP "^\s*umask\s+077" "$file" || \
-        WARNING "Add or correct the line 'umask 077' in $file"
+        MINOR "Add or correct the line 'umask 077' in $file"
     }
 done
 

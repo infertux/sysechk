@@ -23,7 +23,7 @@
 # Parameters: hashing algorithm
 # Technical-mechanisms: via PAM
 
-. $(dirname $0)/../lib/functions.sh
+. $(dirname $0)/../lib/sysechk.sh
 
 case $(DISTRO) in
     debian) FILE /etc/pam.d/common-password;;
@@ -31,7 +31,7 @@ case $(DISTRO) in
 esac
 
 GREP "^password\s+.*\s+pam_unix\.so\s+.*sha512" $file || \
-    WARNING "Edit the file /etc/pam.d/system-auth to ensure that sha512 is used by the pam unix.so module in the password section"
+    CRITICAL "Edit the file /etc/pam.d/system-auth to ensure that sha512 is used by the pam unix.so module in the password section"
 
 exit $ret
 

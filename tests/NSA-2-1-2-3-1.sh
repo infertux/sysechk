@@ -23,7 +23,7 @@
 # Parameters: up-to-date / outdated
 # Technical-mechanisms: via yum
 
-. $(dirname $0)/../lib/functions.sh
+. $(dirname $0)/../lib/sysechk.sh
 
 case $(DISTRO) in
 redhat)
@@ -43,12 +43,12 @@ archlinux)
     cmd="pacman -Syu"
     ;;
 *)
-    WARNING \
+    MAJOR \
     "Unable to detect if your system is up-to-date, please check manually"
 esac
 
 [ "$list" ] && {
-    WARNING "Update your packages with '$cmd'"
+    MAJOR "Update your packages with '$cmd'"
     $VERBOSE && echo -e "List of available updates:$list"
 }
 

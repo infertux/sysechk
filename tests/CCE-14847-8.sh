@@ -23,7 +23,7 @@
 # Parameters: umask
 # Technical-mechanisms: via /etc/profile
 
-. $(dirname $0)/../lib/functions.sh
+. $(dirname $0)/../lib/sysechk.sh
 
 case $(DISTRO) in
     debian) exit 0;;
@@ -31,7 +31,7 @@ case $(DISTRO) in
 esac
 
 GREP "^\s*umask\s+077" $file || \
-    WARNING "Add or correct the line 'umask 077' in $file"
+    MINOR "Add or correct the line 'umask 077' in $file"
 
 exit $ret
 

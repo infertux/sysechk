@@ -23,16 +23,16 @@
 # Parameters:
 # Technical-mechanisms:
 
-. $(dirname $0)/../lib/functions.sh
+. $(dirname $0)/../lib/sysechk.sh
 
 INSTALLED csh || exit 0
 
 FILE /etc/csh.cshrc /etc/csh.login
 
-GREP "^umask\s+077" /etc/csh.cshrc && WARNING "Add '$pattern' to $file"
+GREP "^umask\s+077" /etc/csh.cshrc && MINOR "Add '$pattern' to $file"
 GREP "^umask\s+" /etc/csh.login && {
     GREP -v "^umask\s+077" /etc/csh.login || \
-    WARNING "umask is not set to 077 in $file"
+    MINOR "umask is not set to 077 in $file"
 }
 
 exit $ret

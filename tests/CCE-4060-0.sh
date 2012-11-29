@@ -23,16 +23,16 @@
 # Parameters: banner text
 # Technical-mechanisms: via /etc/motd
 
-. $(dirname $0)/../lib/functions.sh
+. $(dirname $0)/../lib/sysechk.sh
 
 FILE /etc/issue
 
 for pattern in '\\r' "$(uname -r)"; do GREP "$pattern" $file && \
-    WARNING "You should not expose your kernel version ($pattern) through the system login banner, edit $file"
+    MAJOR "You should not expose your kernel version ($pattern) through the system login banner, edit $file"
 done
 
 for pattern in '\\n' "$(uname -n)"; do GREP "$pattern" $file && \
-    WARNING "You should not expose your FQDN ($pattern) through the system login banner, edit $file"
+    MINOR "You should not expose your FQDN ($pattern) through the system login banner, edit $file"
 done
 
 case $(DISTRO) in
@@ -43,7 +43,7 @@ case $(DISTRO) in
 esac
 
 [ "$pattern" ] && GREP "$pattern" $file && \
-    WARNING "You should not expose your distribution ($pattern) through the system login banner, edit $file"
+    MINOR "You should not expose your distribution ($pattern) through the system login banner, edit $file"
 
 exit $ret
 

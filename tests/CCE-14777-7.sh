@@ -23,10 +23,10 @@
 # Parameters: partition
 # Technical-mechanisms: via /etc/fstab
 
-. $(dirname $0)/../lib/functions.sh
+. $(dirname $0)/../lib/sysechk.sh
 
 mount | GREP 'on /var ' || \
-    WARNING "Create separate partition or logical volume for /var"
+    MINOR "Create separate partition or logical volume for /var"
 
 exit $ret
 

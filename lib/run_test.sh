@@ -16,9 +16,6 @@ xcode=$?
 chmod 400 $out.tmp # lock the file
 mv $out.tmp $out.txt
 
-# get rid of excluded reports
-[ "$(cat $out.txt)" = "EXCLUDED" ] && rm -f $out.txt
-
 # update status
 nb=$(ls $REPORTS/*.txt | wc -w)
 [ $xcode -ne 0 ] && last='failed' || last='passed'

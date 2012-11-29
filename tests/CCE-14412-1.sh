@@ -23,12 +23,12 @@
 # Parameters: enabled / disabled
 # Technical-mechanisms: via /etc/fstab
 
-. $(dirname $0)/../lib/functions.sh
+. $(dirname $0)/../lib/sysechk.sh
 
 FILE /etc/fstab
 
 [ "$(awk '$2=="/tmp" && $4!~"nodev"' $file)" ] && \
-    WARNING "Add the option 'nodev' in column 4 for /tmp in $file"
+    CRITICAL "Add the option 'nodev' in column 4 for /tmp in $file"
 
 exit $ret
 

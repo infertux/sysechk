@@ -23,10 +23,10 @@
 # Parameters: umask
 # Technical-mechanisms: via /etc/login.def
 
-. $(dirname $0)/../lib/functions.sh
+. $(dirname $0)/../lib/sysechk.sh
 
 GREP "^UMASK\s+077" /etc/login.defs || \
-    WARNING "Add 'UMASK 077' to $file"
+    MAJOR "Add 'UMASK 077' to $file"
 
 exit $ret
 

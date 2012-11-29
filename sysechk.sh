@@ -19,13 +19,13 @@
 export TESTS=tests
 export REPORTS=reports
 
-. $(dirname $0)/lib/functions.sh
+. $(dirname $0)/lib/sysechk.sh
 cd $(dirname $0)
 
-echo "Purging old reports…"
+$VERBOSE && echo "Purging old reports…"
 rm -f $REPORTS/*
 
-echo "Running tests…"
+$VERBOSE && echo "Running tests…"
 [ "$(ls -A $TESTS)" ] || FATAL "No tests found!"
 
 set +e
@@ -34,36 +34,23 @@ find $TESTS -name "*.sh" -print0 | xargs -0 -n1 -P0 ./lib/run_test.sh "$@"
 xcode=$?
 set -e
 
-[ $xcode -ne 0 -a $xcode -ne 123 ] && FATAL "WTF: $xcode"
-
-fail=$(find $REPORTS -name "*.txt" -not -empty | wc -l)
+fail=$(wc -l reports/*.txt | tail -1 | awk '{print $1}')
 reports=$(ls $REPORTS | wc -w)
 echo -ne "\x1b\x5b\x32\x4b" # send VT100 escape code ^[[2K to erase the line
 echo "$reports tests taken in $SECONDS seconds."
 
-if [ $xcode -eq 0 ]; then
-
-    echo -e "${GREENB}All tests passed, your system seems quite secure!${DEFAULT}"
-
-elif [ $xcode -eq 123 ]; then
-
-    echo -e "${REDB}$fail problems detected:${DEFAULT}"
+if [ $fail -eq 0 ]; then
+    SUCCESS "All tests passed, your system seems quite secure!"
+else
+    WARNING "$fail problems detected:"
     grep '' $REPORTS/*.txt | sed -r 's@.*/(.*)\.txt:(.*)$@\1\t\2@' >&2
-    # alternative display
-    #for file in $REPORTS/*.txt ; do
-    #    [ -s "$file" ] || continue
-    #    echo -ne "$file\t" | sed -r 's@.*/(.*)\.txt@\1@' >&2
-    #    (( width = $(tput cols) - 20 ))
-    #    fold -w $width "$file" | head -1 >&2
-    #    fold -w $width "$file" | tail -n +2 | sed 's/^/\t\t/' >&2
-    #done
-
 fi
 
+# create the output file if requested
 [ "$OUTPUT_FILE" ] && \
     find $REPORTS -name "*.txt" -not -empty | sed -r 's@.*/(.*)\.txt$@\1@' > $OUTPUT_FILE
 
-echo "Done."
+$VERBOSE && echo "Done."
 
 exit $fail
 

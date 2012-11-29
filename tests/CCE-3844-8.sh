@@ -23,14 +23,14 @@
 # Parameters: umask
 # Technical-mechanisms: umask
 
-. $(dirname $0)/../lib/functions.sh
+. $(dirname $0)/../lib/sysechk.sh
 
 case $(DISTRO) in
     redhat) FILE /etc/bashrc;;
     *)      FILE /etc/bash.bashrc;;
 esac
 
-GREP "^umask\s+077" $file && WARNING "Add '$pattern' to $file"
+GREP "^umask\s+077" $file && MINOR "Add '$pattern' to $file"
 
 exit $ret
 

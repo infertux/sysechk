@@ -81,7 +81,7 @@ It will print only "Done." if all dependencies are satisfied.
 1. Finally, run all tests (it may take a while).
 
     ```
-    ./run_tests.sh
+    ./sysechk.sh
     ```
 
 1. You can also run each test individually.
@@ -92,11 +92,11 @@ It will print only "Done." if all dependencies are satisfied.
 
 ## Flags
 
-You can pass flags to `run_tests.sh` and to individual tests:
+You can pass flags to `sysechk.sh` and to individual tests:
 
 ```
-$ ./run_tests.sh -h
-Usage: run_tests.sh [options]
+$ ./sysechk.sh -h
+Usage: sysechk.sh [options]
   -h  Display this help
   -s  Skip all tests where root privileges are required (overrides -e)
   -e  Execute all tests where root privileges are required
@@ -104,6 +104,7 @@ Usage: run_tests.sh [options]
   -v  Be verbose
   -x <test>  Test to exclude (can be repeated, e.g. -x CCE-3561-8 -x NSA-2-1-2-3-1)
   -o <file>  Write the list of failed tests into an output file
+  -m (trivial|minor|major|critical) Minimal severity to report
 
 $ ./tests/NSA-2-1-2-3-1.sh -h
 Usage: NSA-2-1-2-3-1.sh [options]
@@ -114,6 +115,7 @@ Usage: NSA-2-1-2-3-1.sh [options]
   -v  Be verbose
   -x <test>  Test to exclude (can be repeated, e.g. -x CCE-3561-8 -x NSA-2-1-2-3-1)
   -o <file>  Write the list of failed tests into an output file
+  -m (trivial|minor|major|critical) Minimal severity to report
 ```
 
 

@@ -23,12 +23,12 @@
 # Parameters: partition
 # Technical-mechanisms: via /etc/fstab
 
-. $(dirname $0)/../lib/functions.sh
+. $(dirname $0)/../lib/sysechk.sh
 
 FILE /etc/passwd
 
 cat $file | cut -d: -f6 | GREP "^/home/" && {
-    mount | GREP 'on /home ' || WARNING \
+    mount | GREP 'on /home ' || MINOR \
     "Since you are using local home directories, create separate partition or" \
     "logical volume for /home"
 }

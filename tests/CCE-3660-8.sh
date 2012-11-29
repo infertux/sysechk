@@ -23,11 +23,11 @@
 # Parameters: enabled / disabled
 # Technical-mechanisms: via /etc/ssh/sshd_config
 
-. $(dirname $0)/../lib/functions.sh
+. $(dirname $0)/../lib/sysechk.sh
 
 [ -f /etc/ssh/sshd_config ] || exit 0
 
-SUDO grep -Eq '^\s*PermitEmptyPasswords\s+yes' /etc/ssh/sshd_config && WARNING \
+SUDO grep -Eq '^\s*PermitEmptyPasswords\s+yes' /etc/ssh/sshd_config && CRITICAL \
     "Remove 'PermitEmptyPasswords yes' from /etc/ssh/sshd_config"
 
 exit $ret

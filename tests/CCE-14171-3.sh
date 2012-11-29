@@ -23,13 +23,13 @@
 # Parameters: partition
 # Technical-mechanisms: via /etc/fstab
 
-. $(dirname $0)/../lib/functions.sh
+. $(dirname $0)/../lib/sysechk.sh
 
 dir=/var/log/audit
 [ -d $dir ] || exit 0
 
 mount | GREP "on $dir " || \
-    WARNING "Create separate partition or logical volume for $dir"
+    MINOR "Create separate partition or logical volume for $dir"
 
 exit $ret
 

@@ -23,10 +23,10 @@
 # Parameters: partition
 # Technical-mechanisms: via /etc/fstab
 
-. $(dirname $0)/../lib/functions.sh
+. $(dirname $0)/../lib/sysechk.sh
 
 mount | GREP 'on /tmp ' || \
-    WARNING "Create separate partition or logical volume for /tmp"
+    MAJOR "Create separate partition or logical volume for /tmp"
 
 exit $ret
 

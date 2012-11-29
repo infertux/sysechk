@@ -23,9 +23,9 @@
 # Parameters: enabled / disabled
 # Technical-mechanisms: via sysctl - net.ipv4.ip_forward
 
-. $(dirname $0)/../lib/functions.sh
+. $(dirname $0)/../lib/sysechk.sh
 
-[ $(/sbin/sysctl -n net.ipv4.ip_forward) -ne 0 ] && WARNING \
+[ $(/sbin/sysctl -n net.ipv4.ip_forward) -ne 0 ] && MAJOR \
 "Is this system going to be used as a firewall or gateway to pass IP traffic" \
 "between different networks? If not, add 'net.ipv4.ip_forward = 0' to" \
 "/etc/sysctl.conf"

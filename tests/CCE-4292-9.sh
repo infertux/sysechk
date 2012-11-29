@@ -23,19 +23,19 @@
 # Parameters: enabled / disabled
 # Technical-mechanisms: via chkconfig
 
-. $(dirname $0)/../lib/functions.sh
+. $(dirname $0)/../lib/sysechk.sh
 
 case $(DISTRO) in
 redhat)
-    chkconfig auditd &>/dev/null || WARNING \
+    chkconfig auditd &>/dev/null || MAJOR \
     "Enable the auditd service with 'chkconfig auditd on'"
     ;;
 debian)
-    [ "$(ls /etc/rc?.d/S??auditd &>/dev/null)" ] || WARNING \
+    [ "$(ls /etc/rc?.d/S??auditd &>/dev/null)" ] || MAJOR \
     "Enable the auditd service with 'update-rc.d auditd enable'"
     ;;
 *)
-    WARNING "Please ensure that the auditd service is enabled"
+    MAJOR "Please ensure that the auditd service is enabled"
 esac
 
 exit $ret
