@@ -3,13 +3,13 @@
 set -eu
 
 [ $UID -eq 0 ] || exit 1
-cd $(dirname $0)
+cd $(dirname $0)/..
 
 # 1. Run it locally
 ./sysechk.sh -fe || true
 
 # 2. Run it into a chrooted Debian
-CHROOT=$(dirname $0)/chroot
+CHROOT=chroot
 [ -d $CHROOT ] || debootstrap stable $CHROOT
 
 # Setup
