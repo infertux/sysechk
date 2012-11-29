@@ -1,0 +1,128 @@
+sysechk(1) -- assess your computer security
+===========================================
+
+## SYNOPSIS
+
+`sysechk` [OPTION]...<br>
+
+## DESCRIPTION
+
+**System Security Checker** is a bundle of small shell scripts to assess your
+computer security.
+
+All scripts run in read-only mode and will never modify any file on your system.
+They rather print actions that should be done to improve system security.
+You always have the last word (see [DISCLAIMER][] below).
+
+Test scripts come from various sources:
+
+  - [Common Configuration Enumeration](https://cce.mitre.org/lists/cce_list.html) (CCE):
+    files named CCE-&lt;ID&gt;.sh (&lt;ID&gt; is the official CCE's ID)
+
+  - [Guide to the Secure Configuration of Red Hat Enterprise Linux 5](https://www.nsa.gov/ia/_files/os/redhat/rhel5-guide-i731.pdf):
+    files named NSA-&lt;ID&gt;.sh (&lt;ID&gt; is the section number in the PDF)
+
+  - other common best practices from here and there (custom tests):
+    files named SSC-&lt;ID&gt;.sh (&lt;ID&gt; is an incremental counter)
+
+## DISCLAIMER
+
+Do not attempt to implement any of the recommendations without first testing in
+a non-production environment.
+
+This software containing recommended security settings. It is not meant to
+replace well-structured policy or sound judgment. Furthermore this software does
+not address site-specific configuration concerns.
+
+## OPTIONS
+
+These options control whether output is written to file(s), standard output, or
+directly to a man pager.
+
+### Root related options
+
+  * `-s`, `--skip-root`:
+    Skip all tests where root privileges are required (overrides `--execute-root`).
+    Skipped tests will be printed on stderr.
+    The default behaviour is to ask interactively for each test if the user wants to execute it.
+    Opposite of `--execute-root`.
+
+  * `-e`, `--execute-root`:
+    Execute all tests where root privileges are required.
+    Opposite of `--skip-root`.
+
+  * `-f`, `--force-root`:
+    Force the program to run even with root privileges.
+    Without this flag, **sysechk** will refuse to run under the root user.
+
+### Filter options
+
+  * `-x`=<test>, `--exclude`=<test>:
+    Test to exclude.
+    <test> is the name of the test file without its extension, e.g. CCE-3561-8 or NSA-2-1-2-3-1.
+    This option can be repeated to exclude several tests.
+
+  * `-o`=<file>, `--output-file`=<file>:
+    If given, the list of failed tests will be outputted into <file>.
+    This can be useful to other scripts.
+
+  * `-m`=<minimal severity>, `--minimal-severity`=<minimal severity>:
+    Minimal severity to report.
+    Severity levels are `trivial`, `minor`, `major` and `critical`.
+    By default, this is set to `trivial` and thus will report all detected problems.
+
+### Miscellaneous options
+
+  * `-v`, `--verbose`:
+    Be verbose.
+    **sysechk** will output more informational messages.
+
+  * `-h`, `--help`:
+    Display a short usage message.
+
+  * `--version`:
+    Show sysechk version and exit.
+
+
+## EXAMPLES
+
+Run **sysechk** interactively:
+
+    $ sysechk
+
+Run **sysechk** excluding tests which require root privileges:
+
+    $ sysechk --skip-root
+
+Run **sysechk** excluding the specified two tests:
+
+    $ sysechk -x CCE-3561-8 -x NSA-2-1-2-3-1
+
+Run **sysechk** as `root` outputing failing tests into `list`:
+
+    $ sysechk -f -e -o list
+
+Run **sysechk** reporting only critical tests failing:
+
+    $ sysechk -m critical
+
+
+## COMPATIBILITY
+
+The primarily targeted OS are Fedora, CentOS & Debian.
+Other distributions might have fewer tests.
+Since CentOS is fully compatible, RHEL should be too (not tested though).
+Tests should be applicable to all variants (Desktop & Server) of each OS.
+
+## BUGS
+
+**sysechk** is written in Bash and has no dependencies but the standard utilities which come with most platforms.
+Every script does one test but does it well - UNIX way ;).
+
+Any issue or improvement should be reported to <https://github.com/infertux/sysechk/issues>.
+
+## COPYRIGHT
+
+**sysechk** is copyright (C) 2011-2012.
+It is distributed under the terms of the AGPLv3 license <http://www.gnu.org/licenses/agpl.html>.
+
