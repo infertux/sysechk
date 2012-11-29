@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv='content-type' value='text/html;charset=utf8'>
+  <meta name='generator' value='Ronn/v0.7.3 (http://github.com/rtomayko/ronn/tree/0.7.3)'>
+  <title>sysechk(1) - assess your computer security</title>
+  <style type='text/css' media='all'>
+  /* style: man */
+  body#manpage {margin:0}
+  .mp {max-width:100ex;padding:0 9ex 1ex 4ex}
+  .mp p,.mp pre,.mp ul,.mp ol,.mp dl {margin:0 0 20px 0}
+  .mp h2 {margin:10px 0 0 0}
+  .mp > p,.mp > pre,.mp > ul,.mp > ol,.mp > dl {margin-left:8ex}
+  .mp h3 {margin:0 0 0 4ex}
+  .mp dt {margin:0;clear:left}
+  .mp dt.flush {float:left;width:8ex}
+  .mp dd {margin:0 0 0 9ex}
+  .mp h1,.mp h2,.mp h3,.mp h4 {clear:left}
+  .mp pre {margin-bottom:20px}
+  .mp pre+h2,.mp pre+h3 {margin-top:22px}
+  .mp h2+pre,.mp h3+pre {margin-top:5px}
+  .mp img {display:block;margin:auto}
+  .mp h1.man-title {display:none}
+  .mp,.mp code,.mp pre,.mp tt,.mp kbd,.mp samp,.mp h3,.mp h4 {font-family:monospace;font-size:14px;line-height:1.42857142857143}
+  .mp h2 {font-size:16px;line-height:1.25}
+  .mp h1 {font-size:20px;line-height:2}
+  .mp {text-align:justify;background:#fff}
+  .mp,.mp code,.mp pre,.mp pre code,.mp tt,.mp kbd,.mp samp {color:#131211}
+  .mp h1,.mp h2,.mp h3,.mp h4 {color:#030201}
+  .mp u {text-decoration:underline}
+  .mp code,.mp strong,.mp b {font-weight:bold;color:#131211}
+  .mp em,.mp var {font-style:italic;color:#232221;text-decoration:none}
+  .mp a,.mp a:link,.mp a:hover,.mp a code,.mp a pre,.mp a tt,.mp a kbd,.mp a samp {color:#0000ff}
+  .mp b.man-ref {font-weight:normal;color:#434241}
+  .mp pre {padding:0 4ex}
+  .mp pre code {font-weight:normal;color:#434241}
+  .mp h2+pre,h3+pre {padding-left:0}
+  ol.man-decor,ol.man-decor li {margin:3px 0 10px 0;padding:0;float:left;width:33%;list-style-type:none;text-transform:uppercase;color:#999;letter-spacing:1px}
+  ol.man-decor {width:100%}
+  ol.man-decor li.tl {text-align:left}
+  ol.man-decor li.tc {text-align:center;letter-spacing:4px}
+  ol.man-decor li.tr {text-align:right;float:right}
+  </style>
+</head>
+<!--
+  The following styles are deprecated and will be removed at some point:
+  div#man, div#man ol.man, div#man ol.head, div#man ol.man.
+
+  The .man-page, .man-decor, .man-head, .man-foot, .man-title, and
+  .man-navigation should be used instead.
+-->
+<body id='manpage'>
+  <div class='mp' id='man'>
+
+  <div class='man-navigation' style='display:none'>
+    <a href="#NAME">NAME</a>
+    <a href="#SYNOPSIS">SYNOPSIS</a>
+    <a href="#DESCRIPTION">DESCRIPTION</a>
+    <a href="#DISCLAIMER">DISCLAIMER</a>
+    <a href="#OPTIONS">OPTIONS</a>
+    <a href="#EXAMPLES">EXAMPLES</a>
+    <a href="#COMPATIBILITY">COMPATIBILITY</a>
+    <a href="#BUGS">BUGS</a>
+    <a href="#COPYRIGHT">COPYRIGHT</a>
+  </div>
+
+  <ol class='man-decor man-head man head'>
+    <li class='tl'>sysechk(1)</li>
+    <li class='tc'></li>
+    <li class='tr'>sysechk(1)</li>
+  </ol>
+
+  <h2 id="NAME">NAME</h2>
+<p class="man-name">
+  <code>sysechk</code> - <span class="man-whatis">assess your computer security</span>
+</p>
+
+<h2 id="SYNOPSIS">SYNOPSIS</h2>
+
+<p><code>sysechk</code> [OPTION]...<br /></p>
+
+<h2 id="DESCRIPTION">DESCRIPTION</h2>
+
+<p><strong>System Security Checker</strong> is a bundle of small shell scripts to assess your
+computer security.</p>
+
+<p>All scripts run in read-only mode and will never modify any file on your system.
+They rather print actions that should be done to improve system security.
+You always have the last word (see <a href="#DISCLAIMER" title="DISCLAIMER" data-bare-link="true">DISCLAIMER</a> below).</p>
+
+<p>Test scripts come from various sources:</p>
+
+<dl>
+<dt><a href="https://cce.mitre.org/lists/cce_list.html">Common Configuration Enumeration</a> (CCE)</dt><dd><p>files named CCE-&lt;ID&gt;.sh (&lt;ID&gt; is the official CCE's ID)</p></dd>
+<dt><a href="https://www.nsa.gov/ia/_files/os/redhat/rhel5-guide-i731.pdf">Guide to the Secure Configuration of Red Hat Enterprise Linux 5</a></dt><dd><p>files named NSA-&lt;ID&gt;.sh (&lt;ID&gt; is the section number in the PDF)</p></dd>
+<dt>other common best practices from here and there (custom tests)</dt><dd><p>files named SSC-&lt;ID&gt;.sh (&lt;ID&gt; is an incremental counter)</p></dd>
+</dl>
+
+
+<h2 id="DISCLAIMER">DISCLAIMER</h2>
+
+<p>Do not attempt to implement any of the recommendations without first testing in
+a non-production environment.</p>
+
+<p>This software containing recommended security settings. It is not meant to
+replace well-structured policy or sound judgment. Furthermore this software does
+not address site-specific configuration concerns.</p>
+
+<h2 id="OPTIONS">OPTIONS</h2>
+
+<p>These options control whether output is written to file(s), standard output, or
+directly to a man pager.</p>
+
+<h3 id="Root-related-options">Root related options</h3>
+
+<dl>
+<dt><code>-s</code>, <code>--skip-root</code></dt><dd><p>Skip all tests where root privileges are required (overrides <code>--execute-root</code>).
+Skipped tests will be printed on stderr.
+The default behaviour is to ask interactively for each test if the user wants to execute it.
+Opposite of <code>--execute-root</code>.</p></dd>
+<dt><code>-e</code>, <code>--execute-root</code></dt><dd><p>Execute all tests where root privileges are required.
+Opposite of <code>--skip-root</code>.</p></dd>
+<dt><code>-f</code>, <code>--force-root</code></dt><dd><p>Force the program to run even with root privileges.
+Without this flag, <strong>sysechk</strong> will refuse to run under the root user.</p></dd>
+</dl>
+
+
+<h3 id="Filter-options">Filter options</h3>
+
+<dl>
+<dt><code>-x</code>=<var>test</var>, <code>--exclude</code>=<var>test</var></dt><dd><p>Test to exclude.
+<var>test</var> is the name of the test file without its extension, e.g. CCE-3561-8 or NSA-2-1-2-3-1.
+This option can be repeated to exclude several tests.</p></dd>
+<dt><code>-o</code>=<var>file</var>, <code>--output-file</code>=<var>file</var></dt><dd><p>If given, the list of failed tests will be outputted into <var>file</var>.
+This can be useful to other scripts.</p></dd>
+<dt><code>-m</code>=<var>minimal severity</var>, <code>--minimal-severity</code>=<var>minimal severity</var></dt><dd><p>Minimal severity to report.
+Severity levels are <code>trivial</code>, <code>minor</code>, <code>major</code> and <code>critical</code>.
+By default, this is set to <code>trivial</code> and thus will report all detected problems.</p></dd>
+</dl>
+
+
+<h3 id="Miscellaneous-options">Miscellaneous options</h3>
+
+<dl>
+<dt><code>-v</code>, <code>--verbose</code></dt><dd><p>Be verbose.
+<strong>sysechk</strong> will output more informational messages.</p></dd>
+<dt><code>-h</code>, <code>--help</code></dt><dd><p>Display a short usage message.</p></dd>
+<dt><code>--version</code></dt><dd><p>Show sysechk version and exit.</p></dd>
+</dl>
+
+
+<h2 id="EXAMPLES">EXAMPLES</h2>
+
+<p>Run <strong>sysechk</strong> interactively:</p>
+
+<pre><code>$ sysechk
+</code></pre>
+
+<p>Run <strong>sysechk</strong> excluding tests which require root privileges:</p>
+
+<pre><code>$ sysechk --skip-root
+</code></pre>
+
+<p>Run <strong>sysechk</strong> excluding the specified two tests:</p>
+
+<pre><code>$ sysechk -x CCE-3561-8 -x NSA-2-1-2-3-1
+</code></pre>
+
+<p>Run <strong>sysechk</strong> as <code>root</code> outputing failing tests into <code>list</code>:</p>
+
+<pre><code>$ sysechk -f -e -o list
+</code></pre>
+
+<p>Run <strong>sysechk</strong> reporting only critical tests failing:</p>
+
+<pre><code>$ sysechk -m critical
+</code></pre>
+
+<h2 id="COMPATIBILITY">COMPATIBILITY</h2>
+
+<p>The primarily targeted OS are Fedora, CentOS &amp; Debian.
+Other distributions might have fewer tests.
+Since CentOS is fully compatible, RHEL should be too (not tested though).
+Tests should be applicable to all variants (Desktop &amp; Server) of each OS.</p>
+
+<h2 id="BUGS">BUGS</h2>
+
+<p><strong>sysechk</strong> is written in Bash and has no dependencies but the standard utilities which come with most platforms.
+Every script does one test but does it well - UNIX way ;).</p>
+
+<p>Any issue or improvement should be reported to <a href="https://github.com/infertux/sysechk/issues" data-bare-link="true">https://github.com/infertux/sysechk/issues</a>.</p>
+
+<h2 id="COPYRIGHT">COPYRIGHT</h2>
+
+<p><strong>sysechk</strong> is copyright (C) 2011-2012.
+It is distributed under the terms of the AGPLv3 license <a href="http://www.gnu.org/licenses/agpl.html" data-bare-link="true">http://www.gnu.org/licenses/agpl.html</a>.</p>
+
+
+  <ol class='man-decor man-foot man foot'>
+    <li class='tl'></li>
+    <li class='tc'>November 2012</li>
+    <li class='tr'>sysechk(1)</li>
+  </ol>
+
+  </div>
+</body>
+</html>
