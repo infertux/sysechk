@@ -10,7 +10,7 @@ cd $(dirname $0)
 
 # 2. Run it into a chrooted Debian
 CHROOT=$(dirname $0)/chroot
-[ -d $CHROOT ] || debootstrap --arch=amd64 stable $CHROOT
+[ -d $CHROOT ] || debootstrap stable $CHROOT
 
 # Setup
 cat > $CHROOT/etc/fstab <<CONF
