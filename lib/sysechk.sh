@@ -198,7 +198,7 @@ chk_cmd()
     done
 }
 
-chk_cmd find grep mv rm sed sudo /sbin/sysctl xargs
+chk_cmd find grep mv rm sed /sbin/sysctl xargs
 case $(DISTRO) in
     redhat) chk_cmd yum;;
     debian) chk_cmd apt-get;;
