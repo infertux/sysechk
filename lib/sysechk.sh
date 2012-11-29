@@ -185,6 +185,22 @@ function SUDO
     ) 200>$LOCK_FILE
 }
 
+usage() {
+    cat >&2 <<USAGE
+Usage: $(basename $0) [options]
+  -h  Display this help
+  -s  Skip all tests where root privileges are required (overrides -e)
+  -e  Execute all tests where root privileges are required
+  -f  Force the program to run even with root privileges
+  -v  Be verbose
+  -x <test>  Test to exclude (can be repeated, e.g. -x CCE-3561-8 -x NSA-2-1-2-3-1)
+  -o <file>  Write the list of failed tests into an output file
+  -m (trivial|minor|major|critical) Minimal severity to report
+USAGE
+
+    exit 1
+}
+
 
 ################
 # DEPENDENCIES #
@@ -219,44 +235,45 @@ EXCLUDE_TESTS=''
 OUTPUT_FILE=''
 MINIMAL_SEVERITY=${SEVERITY[trivial]}
 
-while getopts ":hsefvx:o:m:" optval; do
-case $optval in
-    h)
-        cat >&2 <<HELP
-Usage: $(basename $0) [options]
-  -h  Display this help
-  -s  Skip all tests where root privileges are required (overrides -e)
-  -e  Execute all tests where root privileges are required
-  -f  Force the program to run even with root privileges
-  -v  Be verbose
-  -x <test>  Test to exclude (can be repeated, e.g. -x CCE-3561-8 -x NSA-2-1-2-3-1)
-  -o <file>  Write the list of failed tests into an output file
-  -m (trivial|minor|major|critical) Minimal severity to report
-HELP
-        exit 0 ;;
-    s)
+args=$(getopt -uo h,s,e,f,v,x:,o:,m: -l help,verbose,version,skip-root,execute-root,force-root,exclude:,output-file:,minimal-severity: "" "$@")
+[ $? -ne 0 ] && usage
+
+set -- $args
+for arg
+do
+    case "$1" in
+    -h|--help)
+        usage ;;
+    -s|--skip-root)
         SKIP_ROOT=true ;;
-    e)
+    -e|--execute-root)
         EXECUTE_ROOT=true ;;
-    f)
+    -f|--force-root)
         FORCE_ROOT=true ;;
-    v)
+    -v|--verbose)
         VERBOSE=true ;;
-    x)
-        EXCLUDE_TESTS="${EXCLUDE_TESTS} ${OPTARG} " ;;
-    o)
-        OUTPUT_FILE=$OPTARG ;;
-    m)
+    -x|--exclude)
+        EXCLUDE_TESTS="${EXCLUDE_TESTS} $2 "; shift 2 ;;
+    -o|--output-file)
+        OUTPUT_FILE=$2; shift 2 ;;
+    -m|--minimal-severity)
         set +u
-        if [ "${SEVERITY[$OPTARG]}" ]; then
-           MINIMAL_SEVERITY=${SEVERITY[$OPTARG]}
+        if [ "${SEVERITY[$2]}" ]; then
+           MINIMAL_SEVERITY=${SEVERITY[$2]}
         else
            FATAL "Severity is invalid." >&2
         fi
         set -u
+        shift 2
         ;;
+    --version)
+        echo "sysechk version 0.2" >&2
+        exit 0;
+        ;;
+    --|'')
+        shift ;;
     *)
-        FATAL "Unknown parameter: '$OPTARG'" >&2 ;;
+        FATAL "Unknown parameter: \`$1'" >&2 ;;
 esac
 done
 
