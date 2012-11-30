@@ -235,27 +235,32 @@ EXCLUDE_TESTS=''
 OUTPUT_FILE=''
 MINIMAL_SEVERITY=${SEVERITY[trivial]}
 
-args=$(getopt -uo h,s,e,f,v,x:,o:,m: -l help,verbose,version,skip-root,execute-root,force-root,exclude:,output-file:,minimal-severity: "" "$@")
+ARGS=$(getopt -o "h,s,e,f,v,x:,o:,m:" -l "help,verbose,version,skip-root,execute-root,force-root,exclude:,output-file:,minimal-severity:" -n sysechk -- "$@")
 [ $? -ne 0 ] && usage
 
-set -- $args
-for arg
-do
+eval set -- "$ARGS"
+while true; do
     case "$1" in
     -h|--help)
-        usage ;;
+        usage;;
     -s|--skip-root)
-        SKIP_ROOT=true ;;
+        SKIP_ROOT=true
+        shift;;
     -e|--execute-root)
-        EXECUTE_ROOT=true ;;
+        EXECUTE_ROOT=true
+        shift;;
     -f|--force-root)
-        FORCE_ROOT=true ;;
+        FORCE_ROOT=true
+        shift;;
     -v|--verbose)
-        VERBOSE=true ;;
+        VERBOSE=true
+        shift;;
     -x|--exclude)
-        EXCLUDE_TESTS="${EXCLUDE_TESTS} $2 "; shift 2 ;;
+        EXCLUDE_TESTS="${EXCLUDE_TESTS} $2 "
+        shift 2;;
     -o|--output-file)
-        OUTPUT_FILE=$2; shift 2 ;;
+        OUTPUT_FILE=$2
+        shift 2;;
     -m|--minimal-severity)
         set +u
         if [ "${SEVERITY[$2]}" ]; then
@@ -264,17 +269,15 @@ do
            FATAL "Severity is invalid." >&2
         fi
         set -u
-        shift 2
-        ;;
+        shift 2;;
     --version)
         echo "sysechk version 0.2" >&2
-        exit 0;
-        ;;
-    --|'')
-        shift ;;
+        exit 0;;
+    --)
+        shift; break;;
     *)
         FATAL "Unknown parameter: \`$1'" >&2 ;;
-esac
+    esac
 done
 
 

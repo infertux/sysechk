@@ -30,7 +30,7 @@ $VERBOSE && echo "Running tests…"
 
 set +e
 # execute all tests in parallel, yeah Bash!
-find $TESTS -name "*.sh" -print0 | xargs -0 -n1 -P0 ./lib/run_test.sh "$@"
+find $TESTS -name "*.sh" -print0 | xargs -0 -n1 -P0 ./lib/run_test.sh "$ARGS"
 xcode=$?
 set -e
 
