@@ -108,9 +108,6 @@ not address site-specific configuration concerns.</p>
 
 <h2 id="OPTIONS">OPTIONS</h2>
 
-<p>These options control whether output is written to file(s), standard output, or
-directly to a man pager.</p>
-
 <h3 id="Root-related-options">Root related options</h3>
 
 <dl>
@@ -129,10 +126,10 @@ Without this flag, <strong>sysechk</strong> will refuse to run under the root us
 
 <dl>
 <dt><code>-x</code>=<var>test</var>, <code>--exclude</code>=<var>test</var></dt><dd><p>Test to exclude.
-<var>test</var> is the name of the test file without its extension, e.g. CCE-3561-8 or NSA-2-1-2-3-1.
+<var>test</var> is the name of the test file without its extension, e.g. <code>CCE-3561-8</code> or <code>NSA-2-1-2-3-1</code>.
 This option can be repeated to exclude several tests.</p></dd>
 <dt><code>-o</code>=<var>file</var>, <code>--output-file</code>=<var>file</var></dt><dd><p>If given, the list of failed tests will be outputted into <var>file</var>.
-This can be useful to other scripts.</p></dd>
+This can be useful to be used with other scripts.</p></dd>
 <dt><code>-m</code>=<var>minimal severity</var>, <code>--minimal-severity</code>=<var>minimal severity</var></dt><dd><p>Minimal severity to report.
 Severity levels are <code>trivial</code>, <code>minor</code>, <code>major</code> and <code>critical</code>.
 By default, this is set to <code>trivial</code> and thus will report all detected problems.</p></dd>
@@ -144,8 +141,8 @@ By default, this is set to <code>trivial</code> and thus will report all detecte
 <dl>
 <dt><code>-v</code>, <code>--verbose</code></dt><dd><p>Be verbose.
 <strong>sysechk</strong> will output more informational messages.</p></dd>
-<dt><code>-h</code>, <code>--help</code></dt><dd><p>Display a short usage message.</p></dd>
-<dt><code>--version</code></dt><dd><p>Show sysechk version and exit.</p></dd>
+<dt><code>-h</code>, <code>--help</code></dt><dd><p>Display a short usage message and exit.</p></dd>
+<dt><code>--version</code></dt><dd><p>Show <strong>sysechk</strong> version and exit.</p></dd>
 </dl>
 
 
@@ -178,17 +175,17 @@ By default, this is set to <code>trivial</code> and thus will report all detecte
 
 <h2 id="COMPATIBILITY">COMPATIBILITY</h2>
 
-<p>The primarily targeted OS are Fedora, CentOS &amp; Debian.
+<p>The primarily targeted Linux distributions are Fedora, CentOS &amp; Debian.
 Other distributions might have fewer tests.
 Since CentOS is fully compatible, RHEL should be too (not tested though).
-Tests should be applicable to all variants (Desktop &amp; Server) of each OS.</p>
+Tests should be applicable to all variants (Desktop &amp; Server) of each distribution.</p>
 
 <h2 id="BUGS">BUGS</h2>
 
-<p><strong>sysechk</strong> is written in Bash and has no dependencies but the standard utilities which come with most platforms.
+<p><strong>sysechk</strong> is written in pure Bash and has no dependencies but the standard utilities that are available on most platforms.
 Every script does one test but does it well - UNIX way ;).</p>
 
-<p>Any issue or improvement should be reported to <a href="https://github.com/infertux/sysechk/issues" data-bare-link="true">https://github.com/infertux/sysechk/issues</a>.</p>
+<p>Any issue or improvement should be reported to <a href="https://github.com/infertux/sysechk/issues" data-bare-link="true">https://github.com/infertux/sysechk/issues</a>. Thanks!</p>
 
 <h2 id="COPYRIGHT">COPYRIGHT</h2>
 
