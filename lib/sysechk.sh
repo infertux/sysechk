@@ -235,7 +235,7 @@ EXCLUDE_TESTS=''
 OUTPUT_FILE=''
 MINIMAL_SEVERITY=${SEVERITY[trivial]}
 
-ARGS=$(getopt -o "h,s,e,f,v,x:,o:,m:" -l "help,verbose,version,skip-root,execute-root,force-root,exclude:,output-file:,minimal-severity:" -n sysechk -- "$@")
+ARGS=$(getopt -uo "h,s,e,f,v,x:,o:,m:" -l "help,verbose,version,skip-root,execute-root,force-root,exclude:,output-file:,minimal-severity:" -n sysechk -- "$@")
 [ $? -ne 0 ] && usage
 
 eval set -- "$ARGS"
