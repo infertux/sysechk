@@ -39,7 +39,6 @@ Do not attempt to implement any of the recommendations without first testing in 
 This software containing recommended security settings\. It is not meant to replace well\-structured policy or sound judgment\. Furthermore this software does not address site\-specific configuration concerns\.
 .
 .SH "OPTIONS"
-These options control whether output is written to file(s), standard output, or directly to a man pager\.
 .
 .SS "Root related options"
 .
@@ -59,11 +58,11 @@ Force the program to run even with root privileges\. Without this flag, \fBsysec
 .
 .TP
 \fB\-x\fR=\fItest\fR, \fB\-\-exclude\fR=\fItest\fR
-Test to exclude\. \fItest\fR is the name of the test file without its extension, e\.g\. CCE\-3561\-8 or NSA\-2\-1\-2\-3\-1\. This option can be repeated to exclude several tests\.
+Test to exclude\. \fItest\fR is the name of the test file without its extension, e\.g\. \fBCCE\-3561\-8\fR or \fBNSA\-2\-1\-2\-3\-1\fR\. This option can be repeated to exclude several tests\.
 .
 .TP
 \fB\-o\fR=\fIfile\fR, \fB\-\-output\-file\fR=\fIfile\fR
-If given, the list of failed tests will be outputted into \fIfile\fR\. This can be useful to other scripts\.
+If given, the list of failed tests will be outputted into \fIfile\fR\. This can be useful to be used with other scripts\.
 .
 .TP
 \fB\-m\fR=\fIminimal severity\fR, \fB\-\-minimal\-severity\fR=\fIminimal severity\fR
@@ -77,11 +76,11 @@ Be verbose\. \fBsysechk\fR will output more informational messages\.
 .
 .TP
 \fB\-h\fR, \fB\-\-help\fR
-Display a short usage message\.
+Display a short usage message and exit\.
 .
 .TP
 \fB\-\-version\fR
-Show sysechk version and exit\.
+Show \fBsysechk\fR version and exit\.
 .
 .SH "EXAMPLES"
 Run \fBsysechk\fR interactively:
@@ -149,13 +148,13 @@ $ sysechk \-m critical
 .IP "" 0
 .
 .SH "COMPATIBILITY"
-The primarily targeted OS are Fedora, CentOS & Debian\. Other distributions might have fewer tests\. Since CentOS is fully compatible, RHEL should be too (not tested though)\. Tests should be applicable to all variants (Desktop & Server) of each OS\.
+The primarily targeted Linux distributions are Fedora, CentOS & Debian\. Other distributions might have fewer tests\. Since CentOS is fully compatible, RHEL should be too (not tested though)\. Tests should be applicable to all variants (Desktop & Server) of each distribution\.
 .
 .SH "BUGS"
-\fBsysechk\fR is written in Bash and has no dependencies but the standard utilities which come with most platforms\. Every script does one test but does it well \- UNIX way ;)\.
+\fBsysechk\fR is written in pure Bash and has no dependencies but the standard utilities that are available on most platforms\. Every script does one test but does it well \- UNIX way ;)\.
 .
 .P
-Any issue or improvement should be reported to \fIhttps://github\.com/infertux/sysechk/issues\fR\.
+Any issue or improvement should be reported to \fIhttps://github\.com/infertux/sysechk/issues\fR\. Thanks!
 .
 .SH "COPYRIGHT"
 \fBsysechk\fR is copyright (C) 2011\-2012\. It is distributed under the terms of the AGPLv3 license \fIhttp://www\.gnu\.org/licenses/agpl\.html\fR\.
