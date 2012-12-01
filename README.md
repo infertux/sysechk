@@ -34,7 +34,7 @@ _System Security Checker_ is a bundle of small shell scripts to assess your comp
 
 ## Usage
 
-**[RTFM](http://infertux.github.com/sysechk/)**
+**[RTFM](http://infertux.github.com/sysechk/)** or `man ./man/sysechk.1`
 
 ## License
 
