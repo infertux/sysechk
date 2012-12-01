@@ -187,11 +187,11 @@ function SUDO
 
 usage() {
     cat >&2 <<USAGE
-Usage: $(basename $0) [options]
+Usage: $(basename $0) [OPTION]...
   -h  Display this help
   -s  Skip all tests where root privileges are required (overrides -e)
   -e  Execute all tests where root privileges are required
-  -f  Force the program to run even with root privileges
+  -f  Force the program to run even with root privileges (implies -e)
   -v  Be verbose
   -x <test>  Test to exclude (can be repeated, e.g. -x CCE-3561-8 -x NSA-2-1-2-3-1)
   -o <file>  Write the list of failed tests into an output file
@@ -251,6 +251,7 @@ while true; do
         shift;;
     -f|--force-root)
         FORCE_ROOT=true
+        EXECUTE_ROOT=true
         shift;;
     -v|--verbose)
         VERBOSE=true
@@ -287,10 +288,8 @@ done
 
 # Check we're not root unless explicitly allowed
 [ $UID -ne 0 ] || $FORCE_ROOT || FATAL \
-"This software does NOT need root privileges, therefore execute it under a" \
-"regular user. If you can not login as a normal user (!), you can try:" \
-"cd sysechk && chown -R nobody: * .* && sudo -u nobody ./run_tests.sh." \
-"If you really want to execute it under root, you can pass the '-f' option."
+"This software does NOT need root privileges to run." \
+"If you really want to execute it under the root user, you can pass the '-f' flag."
 
 # Handle excluded tests
 current_test=$(echo $0 | sed -r 's#tests/(.*)\.sh#\1#')

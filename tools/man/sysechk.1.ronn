@@ -50,6 +50,7 @@ not address site-specific configuration concerns.
 
   * `-f`, `--force-root`:
     Force the program to run even with root privileges.
+    This implies the `-e` flag.
     Without this flag, **sysechk** will refuse to run under the root user.
 
 ### Filter options
