@@ -27,15 +27,15 @@
 
 case $(DISTRO) in
 redhat)
-    chkconfig auditd &>/dev/null || MAJOR \
+    chkconfig auditd &>/dev/null || MINOR \
     "Enable the auditd service with 'chkconfig auditd on'"
     ;;
 debian)
-    [ "$(ls /etc/rc?.d/S??auditd &>/dev/null)" ] || MAJOR \
+    [ "$(ls /etc/rc?.d/S??auditd &>/dev/null)" ] || MINOR \
     "Enable the auditd service with 'update-rc.d auditd enable'"
     ;;
 *)
-    MAJOR "Please ensure that the auditd service is enabled"
+    MINOR "Please ensure that the auditd service is enabled"
 esac
 
 exit $ret

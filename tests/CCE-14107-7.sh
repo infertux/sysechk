@@ -26,7 +26,7 @@
 . $(dirname $0)/../lib/sysechk.sh
 
 GREP "^UMASK\s+077" /etc/login.defs || \
-    MAJOR "Add 'UMASK 077' to $file"
+    MINOR "Add 'UMASK 077' to $file"
 
 exit $ret
 
