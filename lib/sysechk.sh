@@ -272,7 +272,7 @@ while true; do
         set -u
         shift 2;;
     --version)
-        echo "sysechk version 0.2" >&2
+        echo "sysechk version 0.9" >&2
         exit 0;;
     --)
         shift; break;;
