@@ -2,7 +2,7 @@
 
 _System Security Checker_ is a bundle of small shell scripts to assess your computer security.
 
-![screenshot](https://imageshack.us/a/img89/8939/sysechk.png "Example output")
+![screenshot](http://infertux.github.com/sysechk/sysechk.png "Example output")
 
 ## Installation
 
