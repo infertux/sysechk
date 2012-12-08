@@ -2,11 +2,16 @@
 
 set -eu
 
-[ $UID -eq 0 ] || exit 1
 cd $(dirname $0)/..
 
 # 1. Run it locally
-./sysechk -f || true
+if [ $UID -eq 0 ]; then
+    ./sysechk -f || true
+else
+    ./sysechk -s
+    exit
+fi
+
 
 # 2. Run it into a chrooted Debian
 CHROOT=chroot
