@@ -4,7 +4,7 @@
 [[ "$REPORTS" && "$LOCK_FILE" ]] || exit 1
 
 # arguments
-file=${!#}
+file="${@: -1}" # last argument
 opts=${@:1:(($#-1))}
 
 # run the test writing output to report
