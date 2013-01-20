@@ -12,7 +12,7 @@ if [ $UID -eq 0 ]; then
     $BASHCOV ./sysechk -f || true
 else
     $BASHCOV ./sysechk -s
-    exit
+    exit 0
 fi
 
 
