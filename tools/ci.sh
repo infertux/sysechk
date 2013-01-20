@@ -4,11 +4,14 @@ set -eu
 
 cd $(dirname $0)/..
 
+command -v bashcov >/dev/null && BASHCOV='bashcov --' || BASHCOV=
+[ "$BASHCOV" ] && echo "Bashcov found, running CI with coverage enabled."
+
 # 1. Run it locally
 if [ $UID -eq 0 ]; then
-    ./sysechk -f || true
+    $BASHCOV ./sysechk -f || true
 else
-    ./sysechk -s
+    $BASHCOV ./sysechk -s
     exit
 fi
 

@@ -1,4 +1,5 @@
 *.swp
 /chroot/
+/coverage/
 /reports/
 /.lock

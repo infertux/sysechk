@@ -1,0 +1,7 @@
+source "https://rubygems.org"
+
+group :developement, :test do
+  gem 'bashcov', '>=0.0.5'
+  # gem 'bashcov', path: '../../../bashcov'
+end
+
