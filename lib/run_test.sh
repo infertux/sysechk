@@ -17,9 +17,8 @@ chmod 400 $out.tmp # lock the file
 mv $out.tmp $out.txt
 
 # update status
-nb=$(ls $REPORTS/*.txt | wc -w)
-[ $xcode -ne 0 ] && last='failed' || last='passed'
-flock -x -n $LOCK_FILE -c "echo -n -e \"$nb tests so far (last: $last)…\r\""
+remain=$(ps --no-headers -o pid --ppid=$PPID | wc -w)
+flock -x -n $LOCK_FILE -c "echo -n -e \"${remain} tests remaining \r\""
 
 exit $xcode
 
