@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #    This file is part of System Security Checker
-#    Copyright (C) 2011-2012  Infertux <infertux@infertux.com>
+#    Copyright (C) 2011-2013  Infertux <infertux@infertux.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -47,7 +47,7 @@ while read line; do
 #!/bin/bash
 
 #    This file is part of System Security Checker
-#    Copyright (C) 2011-2012  Infertux <infertux@infertux.com>
+#    Copyright (C) 2011-2013  Infertux <infertux@infertux.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
