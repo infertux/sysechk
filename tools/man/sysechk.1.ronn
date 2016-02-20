@@ -121,6 +121,6 @@ Any issue or improvement should be reported to <https://github.com/infertux/syse
 
 ## COPYRIGHT
 
-**sysechk** is copyright (C) 2011-2013.
+**sysechk** is copyright (C) 2011-2016.
 It is distributed under the terms of the AGPLv3 license <http://www.gnu.org/licenses/agpl.html>.
 
