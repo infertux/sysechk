@@ -1,11 +1,16 @@
-sudo: required
+sudo: false
 language: ruby
 rvm:
   - 2.3.0
 gemfile: tools/dev/Gemfile
 before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq debootstrap
+  - gem install bundler --no-document
+services:
+  - docker
+env:
+  - DISTRO=local
+  - DISTRO=debian FAILING="CCE-3561-8 CCE-4060-0 CCE-4292-9 CCE-14011-1 CCE-14107-7 CCE-14161-4 CCE-14777-7"
+  - DISTRO=centos FAILING="CCE-3561-8 CCE-4060-0 CCE-4292-9 CCE-14011-1 CCE-14161-4 CCE-14777-7 CCE-14847-8"
+  - DISTRO=base/archlinux FAILING="CCE-3561-8 CCE-4060-0 CCE-4292-9 CCE-14011-1 CCE-14161-4 CCE-14777-7 CCE-14847-8"
 script:
   - ./tools/ci.sh
-  - sudo ./tools/ci.sh
