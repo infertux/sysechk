@@ -4,6 +4,7 @@
 # SETUP #
 #########
 
+# don't set it via the shebang otherwise it won't be inherited
 set -eu
 
 # disable CTRL+C
