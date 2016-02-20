@@ -6,10 +6,10 @@ _System Security Checker_ is a bundle of small shell scripts to assess your comp
 
 ## Installation
 
-1. Clone the latest version of SSC.
+1. Clone the latest version of `sysechk`.
 
     ```
-    git clone git://github.com/infertux/sysechk.git
+    git clone https://github.com/infertux/sysechk.git
     cd sysechk
     ```
 

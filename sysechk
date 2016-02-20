@@ -37,7 +37,7 @@ set -e
 fail=$(wc -l reports/*.txt | tail -1 | awk '{print $1}')
 reports=$(ls $REPORTS | wc -w)
 echo -ne "\x1b\x5b\x32\x4b" # send VT100 escape code ^[[2K to erase the line
-echo "$reports tests taken in $SECONDS seconds."
+echo "$reports tests ran in $SECONDS seconds."
 
 if [ $fail -eq 0 ]; then
     SUCCESS "All tests passed, your system seems quite secure!"
