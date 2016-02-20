@@ -102,7 +102,7 @@ function SUCCESS
 
 ## test helpers
 
-# returns the distribution family (i.e. CentOs and Fedora will return 'redhat')
+# returns the distribution family (i.e. CentOS and Fedora will return 'redhat')
 function DISTRO
 {
     [ -e /etc/redhat-release ] && { echo redhat; return; }

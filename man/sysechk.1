@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "SYSECHK" "1" "December 2012" "" ""
+.TH "SYSECHK" "1" "February 2016" "" ""
 .
 .SH "NAME"
 \fBsysechk\fR \- assess your computer security
@@ -122,7 +122,7 @@ $ sysechk \-x CCE\-3561\-8 \-x NSA\-2\-1\-2\-3\-1
 .IP "" 0
 .
 .P
-Run \fBsysechk\fR as \fBroot\fR outputing failing tests into \fBlist\fR:
+Run \fBsysechk\fR as \fBroot\fR outputting failing tests into \fBlist\fR:
 .
 .IP "" 4
 .
@@ -148,10 +148,10 @@ $ sysechk \-m critical
 .IP "" 0
 .
 .SH "COMPATIBILITY"
-The primarily targeted Linux distributions are Fedora, CentOS & Debian\. Other distributions might have fewer tests\. Since CentOS is fully compatible, RHEL should be too (not tested though)\. Tests should be applicable to all variants (Desktop & Server) of each distribution\.
+The primarily targeted Linux distributions are CentOS & Debian\. Other distributions might have fewer tests\. Since CentOS is fully supported by \fBsysechk\fR, RHEL should be as well\. Tests should be applicable to all variants (Desktop & Server) of each distribution\.
 .
 .SH "BUGS"
-\fBsysechk\fR is written in pure Bash and has no dependencies but the standard utilities that are available on most platforms\. Every script does one test but does it well \- UNIX way ;)\.
+\fBsysechk\fR is written in pure Bash and has no dependencies but the standard utilities that are available on most platforms\. Every script does one test but does it well, i\.e\. the UNIX way ;)\.
 .
 .P
 Any issue or improvement should be reported to \fIhttps://github\.com/infertux/sysechk/issues\fR\. Thanks!
