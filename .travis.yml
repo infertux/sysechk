@@ -1,10 +1,7 @@
 sudo: false
 language: ruby
-rvm:
-  - 2.3.0
+rvm: 2.5.0
 gemfile: tools/dev/Gemfile
-before_install:
-  - gem install bundler --no-document
 services:
   - docker
 env:

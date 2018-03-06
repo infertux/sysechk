@@ -1,3 +1,4 @@
+SimpleCov.add_filter "/.git/"
 SimpleCov.add_filter "/tools/"
 
 SimpleCov.add_group "Lib", "lib"
