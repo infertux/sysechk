@@ -215,7 +215,7 @@ check_command()
     done
 }
 
-check_command find grep mv rm sed /sbin/sysctl xargs
+check_command find grep mv rm sed sysctl xargs
 case $(DISTRO) in
     redhat) check_command yum;;
     debian) check_command apt-get;;
